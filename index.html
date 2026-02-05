@@ -147,8 +147,9 @@
             <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 px-2">Disaster Risk Services</p>
 
             <!-- Active Service -->
-            <div
-                class="bg-gradient-to-r from-green-600 to-green-700 p-4 rounded-xl shadow-lg border border-green-500 flex items-center gap-4 cursor-pointer relative overflow-hidden group">
+            <!-- Active Service -->
+            <div onclick="switchView('view-simulator')"
+                class="bg-gradient-to-r from-green-600 to-green-700 p-4 rounded-xl shadow-lg border border-green-500 flex items-center gap-4 cursor-pointer relative overflow-hidden group hover:scale-[1.02] transition">
                 <div class="absolute right-0 top-0 h-full w-1 bg-green-400"></div>
                 <i class="fa-solid fa-cloud-showers-heavy text-2xl text-white/90"></i>
                 <div>
@@ -243,23 +244,112 @@
         </div>
     </header>
 
-    <!-- CONTENT -->
-    <main class="flex-grow container mx-auto px-4 py-6">
-        <div
-            class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-green-500 mb-4 flex justify-between items-center">
-            <p class="text-sm text-stone-600 font-medium">
-                <i class="fa-solid fa-circle-info text-blue-500 mr-2"></i> Analyzing local hazard profiles. Click
-                <b>"Generate 3-Page Official Report"</b> to export analysis to PDF.
-            </p>
-            <span
-                class="text-[10px] bg-slate-100 px-3 py-1 rounded-full text-slate-500 font-bold tracking-widest uppercase">Platform
-                v2.0</span>
+    <!-- CONTENT CONTAINER -->
+    <main class="flex-grow container mx-auto px-4 py-6 relative">
+
+        <!-- ======================= -->
+        <!-- VIEW: HOME DASHBOARD -->
+        <!-- ======================= -->
+        <div id="view-home" class="space-y-8 animate-fade-in">
+            <!-- Hero Banner -->
+            <div
+                class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-10 text-center shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10">
+                    <i
+                        class="fa-solid fa-screwdriver-wrench text-9xl text-white transform rotate-12 translate-x-10 -translate-y-10"></i>
+                </div>
+
+                <span
+                    class="inline-block bg-yellow-500/20 text-yellow-300 border border-yellow-500/50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 animate-pulse">
+                    <i class="fa-solid fa-cone"></i> Site Under Construction
+                </span>
+                <h1 class="text-4xl md:text-6xl font-black text-white mb-4">Welcome to <span
+                        class="text-green-500">SinagSpatial</span></h1>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-8">A centralized platform for advanced Disaster
+                    Risk Reduction & Management (DRRM) intelligence. We transform complex geospatial data into
+                    actionable insights for LGUs.</p>
+
+                <button onclick="switchView('view-simulator')"
+                    class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg shadow-green-900/50 flex items-center gap-3 mx-auto">
+                    <i class="fa-solid fa-play"></i> Launch Flood Simulator
+                </button>
+            </div>
+
+            <!-- About Me Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="col-span-1 md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-user-tie text-green-600"></i> About the Developer
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Hi, I'm <b class="text-slate-900">Engr. Dave U. Gepalago</b>. I specialize in integrating
+                        Cloud-Based Remote Sensing (Google Earth Engine) with web technologies to democratize access to
+                        hazard data.
+                        <br><br>
+                        My mission with <b>SinagSpatial</b> is to provide Local Government Units (LGUs) with free,
+                        professional-grade tools that typically cost millions in proprietary software. By leveraging
+                        open-source data (Sentinel-1, Sentinel-2, MERIT-Hydro), we can build resilient communities
+                        together.
+                    </p>
+
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"><i
+                                class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                        <a href="#"
+                            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"><i
+                                class="fa-brands fa-github"></i> GitHub</a>
+                        <a href="#"
+                            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"><i
+                                class="fa-solid fa-envelope"></i> Contact</a>
+                    </div>
+                </div>
+
+                <!-- System Stats -->
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200 flex flex-col justify-center space-y-6">
+                    <div>
+                        <span class="block text-4xl font-black text-slate-900">2.0</span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Platform Version</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-black text-blue-600">40+</span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Years of Climate
+                            Data</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-black text-green-600">30m</span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Spatial
+                            Resolution</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden app-container relative">
-            <iframe id="gee-app-frame" src="https://ee-dugproject.projects.earthengine.app/view/flood-risk-mapping"
-                class="w-full h-full border-0" allow="geolocation">
-            </iframe>
+        <!-- ======================= -->
+        <!-- VIEW: FLOOD SIMULATOR -->
+        <!-- ======================= -->
+        <div id="view-simulator" class="hidden animate-fade-in space-y-4">
+            <div
+                class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-green-500 flex justify-between items-center">
+                <p class="text-sm text-stone-600 font-medium">
+                    <i class="fa-solid fa-circle-info text-blue-500 mr-2"></i> Analyzing local hazard profiles. Click
+                    <b>"Generate 3-Page Official Report"</b> to export analysis to PDF.
+                </p>
+                <div class="flex gap-3">
+                    <button onclick="switchView('view-home')"
+                        class="text-xs font-bold text-slate-400 hover:text-slate-600 uppercase">Back to Home</button>
+                    <span
+                        class="text-[10px] bg-slate-100 px-3 py-1 rounded-full text-slate-500 font-bold tracking-widest uppercase">Platform
+                        v2.0</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden app-container relative h-[calc(100vh-240px)] min-h-[600px]">
+                <iframe id="gee-app-frame" src="https://ee-dugproject.projects.earthengine.app/view/flood-risk-mapping"
+                    class="w-full h-full border-0" allow="geolocation">
+                </iframe>
+            </div>
         </div>
     </main>
 
@@ -634,6 +724,22 @@
                 sidebar.classList.add('-translate-x-full');
                 overlay.classList.add('opacity-0');
                 setTimeout(() => overlay.classList.add('hidden'), 300); // Wait for fade out
+            }
+        }
+
+        // --- VIEW SWITCHING LOGIC (SPA) ---
+        function switchView(viewId) {
+            // Hide all views
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-simulator').classList.add('hidden');
+
+            // Show target view
+            document.getElementById(viewId).classList.remove('hidden');
+
+            // Close sidebar if on mobile
+            const sidebar = document.getElementById('nav-sidebar');
+            if (!sidebar.classList.contains('-translate-x-full')) {
+                toggleSidebar();
             }
         }
 
