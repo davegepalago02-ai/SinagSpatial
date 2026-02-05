@@ -276,7 +276,7 @@
 
                     <div class="mb-8">
                         <p class="text-[12px] font-black text-slate-400 uppercase tracking-widest mb-1">Target Area</p>
-                        <h2 id="p1-muni" class="text-4xl font-black text-slate-900">Masantol, Pampanga</h2>
+                        <h2 id="p1-muni" class="text-4xl font-black text-slate-900">--</h2>
                     </div>
 
                     <!-- MAP AREA -->
@@ -365,15 +365,13 @@
                     <div class="section-title">🧠 AI Historical Context & Disclosure</div>
                     <div id="p2-narrative"
                         class="p-6 bg-slate-50 border-l-4 border-slate-900 text-[11.5pt] leading-[1.6] text-slate-700 italic rounded-r-xl mb-12">
-                        Detailed historical hazard narrative is derived from 40 years of CHIRPS rainfall monitoring...
+                        --
                     </div>
 
                     <div class="section-title">📢 Strategic Action Recommendations</div>
                     <div id="p2-recs"
                         class="text-[11pt] text-slate-800 space-y-3 mb-auto leading-relaxed whitespace-pre-line px-4">
-                        • Priority evacuation monitoring for Red-coded sectors.
-                        • Activate LGU weather observation sensors.
-                        • Pre-position humanitarian aid in identified "Safe Pockets."
+                        --
                     </div>
 
                     <div class="pdf-footer">
@@ -426,7 +424,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-black text-slate-900">ENGR. DAVE U. GEPALAGO</h3>
-                            <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer & Hydrologist</p>
+                            <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer</p>
                             <p class="text-[9pt] text-slate-500 leading-relaxed">
                                 Specialist in Disaster Risk Analysis and Web-GIS integration. Developed the SinagSpatial
                                 series of tools to provide LGUs with accessible, satellite-driven decision support
@@ -456,7 +454,7 @@
     <!-- FOOTER -->
     <footer class="bg-stone-200 text-stone-500 py-6 mt-10">
         <div class="container mx-auto px-4 text-center text-[10px] font-bold tracking-widest uppercase">
-            <p>&copy; 2026 Developed by Engr. Dave U. Gepalago | GIS Learning Portal by Engr DUG</p>
+            <p>&copy; 2026 Developed by Engr. Dave U. Gepalago | SinagSpatial</p>
         </div>
     </footer>
 
@@ -500,14 +498,14 @@
         function closeReportModal() { modal.classList.add('hidden'); }
 
         function syncReport() {
-            const muni = document.getElementById('in-muni').value || 'Masantol, Pampanga';
+            const muni = document.getElementById('in-muni').value || 'Target Area';
             const rain = document.getElementById('in-rain').value || '100';
             const mapUrl = document.getElementById('in-map-url').value;
             const pop = document.getElementById('in-pop').value || '0';
             const crops = document.getElementById('in-crops').value || '0.00';
             const houses = document.getElementById('in-houses').value || '0.00';
-            const narrative = document.getElementById('in-narrative').value || 'Historical analysis results will appear here...';
-            const recs = document.getElementById('in-recs').value || '• Priority actions will appear here...';
+            const narrative = document.getElementById('in-narrative').value || '--';
+            const recs = document.getElementById('in-recs').value || '--';
 
             // Page 1
             document.getElementById('p1-muni').innerText = muni;
