@@ -172,8 +172,9 @@
         <div
             class="bg-white rounded-3xl shadow-2xl w-full max-w-7xl h-[95vh] flex overflow-hidden ring-1 ring-white/20">
 
-            <!-- EDITOR SIDEBAR -->
-            <div class="w-96 p-8 bg-slate-50 border-r flex flex-col h-full overflow-hidden">
+            <!-- EDITOR SIDEBAR (HIDDEN FOR AUTOMATION) -->
+            <div class="w-96 p-8 bg-slate-50 border-r flex flex-col h-full overflow-hidden hidden" id="report-sidebar">
+                <!-- Inputs remain for data binding but are hidden from view -->
                 <div class="mb-6">
                     <h3 class="text-2xl font-black text-slate-800">Expert Report</h3>
                     <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Multi-Page Synthesis
@@ -238,15 +239,18 @@
                     </div>
                 </div>
 
-                <div class="pt-6 space-y-3">
-                    <button onclick="download3PagePDF()"
-                        class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-black transition shadow-xl flex items-center justify-center gap-3">
-                        <i class="fa-solid fa-download"></i> Save as 3-Page PDF
-                    </button>
-                    <button onclick="closeReportModal()"
-                        class="w-full text-slate-400 font-bold text-xs uppercase hover:text-red-500 transition">Cancel
-                        and Exit</button>
-                </div>
+            </div>
+
+            <!-- AUTOMATION CONTROL PANEL -->
+            <div class="absolute bottom-6 left-6 z-50">
+                <button onclick="download3PagePDF()"
+                    class="bg-slate-900 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-black transition flex items-center gap-3">
+                    <i class="fa-solid fa-download"></i> Save Official Report (PDF)
+                </button>
+                <button onclick="closeReportModal()"
+                    class="bg-white text-slate-500 px-6 py-3 rounded-full font-bold shadow-lg hover:text-red-600 transition ml-3">
+                    Close
+                </button>
             </div>
 
             <!-- PDF PREVIEW WINDOW -->
@@ -471,6 +475,11 @@
                 document.getElementById('in-houses').value = params.get('houses');
                 document.getElementById('in-narrative').value = decodeURIComponent(params.get('narrative'));
                 document.getElementById('in-recs').value = decodeURIComponent(params.get('recs'));
+
+                // NEW: Handle Map Thumbnail URL
+                if (params.has('map')) {
+                    document.getElementById('in-map-url').value = decodeURIComponent(params.get('map'));
+                }
 
                 openReportModal();
                 syncReport();
