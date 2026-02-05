@@ -119,10 +119,107 @@
 
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- NAVIGATION -->
-    <header class="bg-slate-900 text-slate-100 shadow-md">
+    <!-- SIDEBAR NAVIGATION OVERLAY -->
+    <div id="nav-overlay" onclick="toggleSidebar()"
+        class="fixed inset-0 bg-black/60 z-40 hidden transition-opacity opacity-0"></div>
+
+    <!-- SIDEBAR DRAWER -->
+    <div id="nav-sidebar"
+        class="fixed top-0 left-0 h-full w-80 bg-slate-900/95 backdrop-blur-xl text-white transform -translate-x-full transition-transform duration-300 z-50 shadow-2xl border-r border-slate-700 flex flex-col">
+        <!-- Sidebar Header -->
+        <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                    <i class="fa-solid fa-satellite text-green-400"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg leading-none">Sinag<span class="text-green-500">Spatial</span></h3>
+                    <p class="text-[10px] text-slate-400 tracking-widest uppercase">Portal v2.0</p>
+                </div>
+            </div>
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white transition"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+
+        <!-- Sidebar Content -->
+        <div class="flex-grow p-4 space-y-3 overflow-y-auto">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 px-2">Disaster Risk Services</p>
+
+            <!-- Active Service -->
+            <div
+                class="bg-gradient-to-r from-green-600 to-green-700 p-4 rounded-xl shadow-lg border border-green-500 flex items-center gap-4 cursor-pointer relative overflow-hidden group">
+                <div class="absolute right-0 top-0 h-full w-1 bg-green-400"></div>
+                <i class="fa-solid fa-cloud-showers-heavy text-2xl text-white/90"></i>
+                <div>
+                    <h4 class="font-bold text-sm">Flood Risk Simulator</h4>
+                    <p class="text-[10px] text-green-100">Hand Model & Rainfall Analysis</p>
+                </div>
+            </div>
+
+            <!-- Coming Soon Services -->
+            <div
+                class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 flex items-center gap-4 opacity-60 hover:opacity-100 transition group cursor-not-allowed">
+                <div
+                    class="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-slate-600 group-hover:text-green-400 transition">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-sm text-slate-300">Vegetation Health</h4>
+                    <p class="text-[10px] text-slate-500">NDVI Analysis</p>
+                </div>
+                <span
+                    class="text-[9px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">SOON</span>
+            </div>
+
+            <div
+                class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 flex items-center gap-4 opacity-60 hover:opacity-100 transition group cursor-not-allowed">
+                <div
+                    class="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-slate-600 group-hover:text-blue-400 transition">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-sm text-slate-300">Water Index</h4>
+                    <p class="text-[10px] text-slate-500">NDWI Monitoring</p>
+                </div>
+                <span
+                    class="text-[9px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">SOON</span>
+            </div>
+
+            <div
+                class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 flex items-center gap-4 opacity-60 hover:opacity-100 transition group cursor-not-allowed">
+                <div
+                    class="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-slate-600 group-hover:text-orange-400 transition">
+                    <i class="fa-solid fa-temperature-three-quarters"></i>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-sm text-slate-300">Urban Heat</h4>
+                    <p class="text-[10px] text-slate-500">LST Analysis</p>
+                </div>
+                <span
+                    class="text-[9px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">SOON</span>
+            </div>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="p-6 border-t border-slate-800">
+            <button
+                class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-user-gear"></i> Admin Login
+            </button>
+        </div>
+    </div>
+
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-slate-900 text-slate-100 shadow-md relative z-30">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-4">
+                <!-- BURGER BUTTON -->
+                <button onclick="toggleSidebar()"
+                    class="text-slate-400 hover:text-white transition p-2 hover:bg-slate-800 rounded-lg">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 50" class="h-14 w-auto">
                     <g transform="translate(0, 5)">
                         <circle cx="20" cy="20" r="14" stroke="#22c55e" stroke-width="2" fill="none" />
@@ -424,7 +521,7 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-black text-slate-900">ENGR. DAVE U. GEPALAGO</h3>
-                            <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer</p>
+                            <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer & Hydrologist</p>
                             <p class="text-[9pt] text-slate-500 leading-relaxed">
                                 Specialist in Disaster Risk Analysis and Web-GIS integration. Developed the SinagSpatial
                                 series of tools to provide LGUs with accessible, satellite-driven decision support
@@ -454,7 +551,7 @@
     <!-- FOOTER -->
     <footer class="bg-stone-200 text-stone-500 py-6 mt-10">
         <div class="container mx-auto px-4 text-center text-[10px] font-bold tracking-widest uppercase">
-            <p>&copy; 2026 Developed by Engr. Dave U. Gepalago | SinagSpatial</p>
+            <p>&copy; 2026 Developed by Engr. Dave U. Gepalago | GIS Learning Portal by Engr DUG</p>
         </div>
     </footer>
 
@@ -520,6 +617,24 @@
             document.getElementById('p2-houses').innerText = houses + " Ha";
             document.getElementById('p2-narrative').innerText = narrative;
             document.getElementById('p2-recs').innerText = recs;
+        }
+
+        // --- SIDEBAR TOGGLE LOGIC ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('nav-sidebar');
+            const overlay = document.getElementById('nav-overlay');
+
+            if (sidebar.classList.contains('-translate-x-full')) {
+                // Open
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10); // Fade in
+            } else {
+                // Close
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300); // Wait for fade out
+            }
         }
 
         async function download3PagePDF() {
