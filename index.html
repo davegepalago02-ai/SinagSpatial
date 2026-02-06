@@ -212,8 +212,8 @@
                         <i class="fa-solid fa-satellite-dish text-radarGreen text-lg"></i>
                     </div>
                     <div>
-                        <h1 class="font-black text-xl text-white tracking-widest leading-none">SATELLITE <span
-                                class="text-radarGreen">INTELLIGENCE</span></h1>
+                        <h1 class="font-black text-xl text-white tracking-widest leading-none">SINAG<span
+                                class="text-radarGreen">SPATIAL</span></h1>
                         <p class="text-[9px] text-slate-400 uppercase tracking-[0.3em]">Portal v3.0 | Command Center</p>
                     </div>
                 </div>
@@ -910,14 +910,16 @@
 
             function switchService(serviceId) {
                 const service = SERVICES.find(s => s.id === serviceId);
-                const container = document.getElementById('main-stage-content'); // Needs to be added to DOM
+                const container = document.getElementById('main-stage-content');
                 toggleDrawer(); // Close menu
+
+                // Ensure HOME is hidden
+                document.getElementById('view-home').classList.add('hidden');
 
                 // If flood risk (Active)
                 if (service.id === 'flood-risk') {
                     document.getElementById('view-simulator').classList.remove('hidden');
                     document.getElementById('view-mission-card').classList.add('hidden');
-                    // Refresh iframe if needed or just show
                 } else {
                     // Show Mission Card
                     document.getElementById('view-simulator').classList.add('hidden');
@@ -992,8 +994,11 @@
                 // ... (Existing input syncing logic) ...
                 const muni = document.getElementById('in-muni').value || 'Target Area';
                 document.getElementById('p1-muni').innerText = muni;
-                if (!sidebar.classList.contains('-translate-x-full')) {
-                    toggleSidebar();
+
+                // Fixed sidebar reference logic
+                const drawer = document.getElementById('burger-drawer');
+                if (drawer && !drawer.classList.contains('-translate-x-full')) {
+                    toggleDrawer();
                 }
             }
 
