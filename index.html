@@ -731,7 +731,7 @@
 
         <!-- 1. LEGAL / IP POLICY -->
         <div id="legal-modal"
-            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
             <div
                 class="bg-[#050814] border border-[#39FF14]/30 max-w-2xl w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)] max-h-[90vh] overflow-y-auto">
                 <button onclick="toggleModal('legal-modal')"
@@ -773,7 +773,7 @@
 
         <!-- 2. PRIVACY POLICY -->
         <div id="privacy-modal"
-            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
             <div
                 class="bg-[#050814] border border-[#39FF14]/30 max-w-2xl w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)] max-h-[90vh] overflow-y-auto">
                 <button onclick="toggleModal('privacy-modal')"
@@ -818,7 +818,7 @@
 
         <!-- 3. DISCLAIMER -->
         <div id="disclaimer-modal"
-            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
             <div
                 class="bg-[#050814] border border-[#39FF14]/30 max-w-lg w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)]">
                 <button onclick="toggleModal('disclaimer-modal')"
@@ -1007,7 +1007,15 @@
             function toggleModal(modalId) {
                 const modal = document.getElementById(modalId);
                 if (modal) {
-                    modal.classList.toggle('hidden');
+                    if (modal.classList.contains('hidden')) {
+                        // Show modal
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                    } else {
+                        // Hide modal
+                        modal.classList.add('hidden');
+                        modal.classList.remove('flex');
+                    }
                 }
             }
 
