@@ -1004,6 +1004,13 @@
                 }
             }
 
+            function toggleModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.toggle('hidden');
+                }
+            }
+
             function startClock() {
                 setInterval(() => {
                     const now = new Date();
