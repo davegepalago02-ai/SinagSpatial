@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150">
+    <!-- Background (Deep Space) -->
+    <rect width="500" height="150" fill="#0B1026" rx="20" ry="20"/>
+    
+    <!-- Icon Part (Left) -->
+    <g transform="translate(75, 75)">
+        <!-- Outer Glow -->
+        <circle cx="0" cy="0" r="45" fill="none" stroke="#39FF14" stroke-width="2" opacity="0.5">
+            <animate attributeName="r" values="45;48;45" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        
+        <!-- Main Grid Globe -->
+        <circle cx="0" cy="0" r="40" fill="none" stroke="#39FF14" stroke-width="4"/>
+        <path d="M-40 0 H40 M0 -40 V40" stroke="#39FF14" stroke-width="2"/>
+        <circle cx="0" cy="0" r="25" fill="none" stroke="#39FF14" stroke-width="2" stroke-dasharray="5,5"/>
+        <circle cx="0" cy="0" r="10" fill="#39FF14"/>
+        
+        <!-- Rays (Sinag) -->
+        <g stroke="#39FF14" stroke-width="3" stroke-linecap="round">
+            <line x1="0" y1="-55" x2="0" y2="-45" />
+            <line x1="0" y1="45" x2="0" y2="55" />
+            <line x1="-55" y1="0" x2="-45" y2="0" />
+            <line x1="45" y1="0" x2="55" y2="0" />
+            
+            <line x1="38" y1="-38" x2="32" y2="-32" />
+            <line x1="-38" y1="-38" x2="-32" y2="-32" />
+            <line x1="38" y1="38" x2="32" y2="32" />
+            <line x1="-38" y1="38" x2="-32" y2="32" />
+        </g>
+    </g>
+    
+    <!-- Text Part (Right) -->
+    <text x="140" y="90" font-family="Arial, sans-serif" font-weight="900" font-size="60" fill="white" letter-spacing="2">
+        SINAG<tspan fill="#39FF14">SPATIAL</tspan>
+    </text>
+    
+    <!-- Tagline -->
+    <text x="145" y="115" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8" letter-spacing="4" font-weight="bold">
+        SATELLITE INTELLIGENCE
+    </text>
+</svg>
