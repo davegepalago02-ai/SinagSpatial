@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SinagSpatial | Official Flood Risk Tool</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- PDF Libraries -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f4;
+            color: #1c1917;
+        }
+
+        .app-container {
+            height: calc(100vh - 220px);
+            min-height: 600px;
+        }
+
+        /* PDF Page Styling (A4 Ratio: 210mm x 297mm) */
+        .pdf-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            padding: 20mm;
+            margin: 0 auto 20px auto;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #1e293b;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80pt;
+            color: rgba(34, 197, 94, 0.04);
+            font-weight: 900;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            z-index: 10;
+        }
+
+        .pdf-footer {
+            margin-top: auto;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 8pt;
+            color: #94a3b8;
+            z-index: 10;
+        }
+
+        .section-title {
+            background: #f1f5f9;
+            padding: 5px 10px;
+            border-left: 4px solid #22c55e;
+            font-weight: bold;
+            font-size: 10pt;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        /* Specific Scrollbar for Editor */
+        #pdf-preview-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #pdf-preview-container::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+
+        #pdf-preview-container::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- SIDEBAR NAVIGATION OVERLAY -->
+    <div id="nav-overlay" onclick="toggleSidebar()"
+        class="fixed inset-0 bg-black/60 z-40 hidden transition-opacity opacity-0"></div>
+
+    <!-- SIDEBAR DRAWER -->
+    <div id="nav-sidebar"
+        class="fixed top-0 left-0 h-full w-80 bg-slate-900/95 backdrop-blur-xl text-white transform -translate-x-full transition-transform duration-300 z-50 shadow-2xl border-r border-slate-700 flex flex-col">
+        <!-- Sidebar Header -->
+        <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                    <i class="fa-solid fa-satellite text-green-400"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg leading-none">Sinag<span class="text-green-500">Spatial</span></h3>
+                    <p class="text-[10px] text-slate-400 tracking-widest uppercase">Portal v2.0</p>
+                </div>
+            </div>
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white transition"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+
+        <!-- Sidebar Content -->
+        <div class="flex-grow p-4 space-y-3 overflow-y-auto">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 px-2">Disaster Risk Services</p>
+
+            <!-- Active Service -->
+            <!-- Active Service -->
+            <div onclick="switchView('view-simulator')"
+                class="bg-gradient-to-r from-green-600 to-green-700 p-4 rounded-xl shadow-lg border border-green-500 flex items-center gap-4 cursor-pointer relative overflow-hidden group hover:scale-[1.02] transition">
+                <div class="absolute right-0 top-0 h-full w-1 bg-green-400"></div>
+                <i class="fa-solid fa-cloud-showers-heavy text-2xl text-white/90"></i>
+                <div>
+                    <h4 class="font-bold text-sm">Flood Risk Simulator</h4>
+                    <p class="text-[10px] text-green-100">Hand Model & Rainfall Analysis</p>
+                </div>
+            </div>
+
+            <!-- Coming Soon Services -->
+            <div
+                class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 flex items-center gap-4 opacity-60 hover:opacity-100 transition group cursor-not-allowed">
+                <div
+                    class="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-slate-600 group-hover:text-green-400 transition">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-sm text-slate-300">Vegetation Health</h4>
+                    <p class="text-[10px] text-slate-500">NDVI Analysis</p>
+                </div>
+                <span
+                    class="text-[9px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">SOON</span>
+            </div>
+
+            <div
+                class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 flex items-center gap-4 opacity-60 hover:opacity-100 transition group cursor-not-allowed">
+                <div
+                    class="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-slate-600 group-hover:text-blue-400 transition">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-sm text-slate-300">Water Index</h4>
+                    <p class="text-[10px] text-slate-500">NDWI Monitoring</p>
+                </div>
+                <span
+                    class="text-[9px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">SOON</span>
+            </div>
+
+            <div
+                class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 flex items-center gap-4 opacity-60 hover:opacity-100 transition group cursor-not-allowed">
+                <div
+                    class="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-slate-600 group-hover:text-orange-400 transition">
+                    <i class="fa-solid fa-temperature-three-quarters"></i>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-sm text-slate-300">Urban Heat</h4>
+                    <p class="text-[10px] text-slate-500">LST Analysis</p>
+                </div>
+                <span
+                    class="text-[9px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">SOON</span>
+            </div>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="p-6 border-t border-slate-800">
+            <button
+                class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-user-gear"></i> Admin Login
+            </button>
+        </div>
+    </div>
+
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-slate-900 text-slate-100 shadow-md relative z-30">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <!-- BURGER BUTTON -->
+                <button onclick="toggleSidebar()"
+                    class="text-slate-400 hover:text-white transition p-2 hover:bg-slate-800 rounded-lg">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 50" class="h-14 w-auto">
+                    <g transform="translate(0, 5)">
+                        <circle cx="20" cy="20" r="14" stroke="#22c55e" stroke-width="2" fill="none" />
+                        <circle cx="20" cy="20" r="8" stroke="#22c55e" stroke-width="2" fill="none" />
+                        <circle cx="20" cy="20" r="3" fill="#22c55e" />
+                    </g>
+                    <text x="50" y="32" font-family="Arial, sans-serif" font-weight="bold" font-size="24">
+                        <tspan fill="#ffffff">Sinag</tspan>
+                        <tspan fill="#22c55e">Spatial</tspan>
+                    </text>
+                    <text x="52" y="44" font-family="Arial, sans-serif" font-size="8" fill="#94a3b8"
+                        letter-spacing="1.5">FLOOD RISK PORTAL</text>
+                </svg>
+            </div>
+            <div class="flex gap-4 items-center">
+                <button onclick="openReportModal()"
+                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition transform active:scale-95 shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-file-pdf"></i> Generate 3-Page Official Report
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT CONTAINER -->
+    <main class="flex-grow container mx-auto px-4 py-6 relative">
+
+        <!-- ======================= -->
+        <!-- VIEW: HOME DASHBOARD -->
+        <!-- ======================= -->
+        <div id="view-home" class="space-y-8 animate-fade-in">
+            <!-- Hero Banner -->
+            <div
+                class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-10 text-center shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10">
+                    <i
+                        class="fa-solid fa-screwdriver-wrench text-9xl text-white transform rotate-12 translate-x-10 -translate-y-10"></i>
+                </div>
+
+                <span
+                    class="inline-block bg-yellow-500/20 text-yellow-300 border border-yellow-500/50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 animate-pulse">
+                    <i class="fa-solid fa-cone"></i> Site Under Construction
+                </span>
+                <h1 class="text-4xl md:text-6xl font-black text-white mb-4">Welcome to <span
+                        class="text-green-500">SinagSpatial</span></h1>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-8">A centralized platform for advanced Disaster
+                    Risk Reduction & Management (DRRM) intelligence. We transform complex geospatial data into
+                    actionable insights for LGUs.</p>
+
+                <button onclick="switchView('view-simulator')"
+                    class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg shadow-green-900/50 flex items-center gap-3 mx-auto">
+                    <i class="fa-solid fa-play"></i> Launch Flood Simulator
+                </button>
+            </div>
+
+            <!-- About Me Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="col-span-1 md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-user-tie text-green-600"></i> About the Developer
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Hi, I'm <b class="text-slate-900">Engr. Dave U. Gepalago</b>. I specialize in integrating
+                        Cloud-Based Remote Sensing (Google Earth Engine) with web technologies to democratize access to
+                        hazard data.
+                        <br><br>
+                        My mission with <b>SinagSpatial</b> is to provide Local Government Units (LGUs) with free,
+                        professional-grade tools that typically cost millions in proprietary software. By leveraging
+                        open-source data (Sentinel-1, Sentinel-2, MERIT-Hydro), we can build resilient communities
+                        together.
+                    </p>
+
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"><i
+                                class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                        <a href="#"
+                            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"><i
+                                class="fa-brands fa-github"></i> GitHub</a>
+                        <a href="#"
+                            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"><i
+                                class="fa-solid fa-envelope"></i> Contact</a>
+                    </div>
+                </div>
+
+                <!-- System Stats -->
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200 flex flex-col justify-center space-y-6">
+                    <div>
+                        <span class="block text-4xl font-black text-slate-900">2.0</span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Platform Version</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-black text-blue-600">40+</span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Years of Climate
+                            Data</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-black text-green-600">30m</span>
+                        <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Spatial
+                            Resolution</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= -->
+        <!-- VIEW: FLOOD SIMULATOR -->
+        <!-- ======================= -->
+        <div id="view-simulator" class="hidden animate-fade-in space-y-4">
+            <div
+                class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-green-500 flex justify-between items-center">
+                <p class="text-sm text-stone-600 font-medium">
+                    <i class="fa-solid fa-circle-info text-blue-500 mr-2"></i> Analyzing local hazard profiles. Click
+                    <b>"Generate 3-Page Official Report"</b> to export analysis to PDF.
+                </p>
+                <div class="flex gap-3">
+                    <button onclick="switchView('view-home')"
+                        class="text-xs font-bold text-slate-400 hover:text-slate-600 uppercase">Back to Home</button>
+                    <span
+                        class="text-[10px] bg-slate-100 px-3 py-1 rounded-full text-slate-500 font-bold tracking-widest uppercase">Platform
+                        v2.0</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden app-container relative h-[calc(100vh-240px)] min-h-[600px]">
+                <iframe id="gee-app-frame" src="https://ee-dugproject.projects.earthengine.app/view/flood-risk-mapping"
+                    class="w-full h-full border-0" allow="geolocation">
+                </iframe>
+            </div>
+        </div>
+    </main>
+
+    <!-- 3-PAGE PDF MODAL -->
+    <div id="report-modal"
+        class="fixed inset-0 bg-slate-900/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-3xl shadow-2xl w-full max-w-7xl h-[95vh] flex overflow-hidden ring-1 ring-white/20">
+
+            <!-- EDITOR SIDEBAR (HIDDEN FOR AUTOMATION) -->
+            <div class="w-96 p-8 bg-slate-50 border-r flex flex-col h-full overflow-hidden hidden" id="report-sidebar">
+                <!-- Inputs remain for data binding but are hidden from view -->
+                <div class="mb-6">
+                    <h3 class="text-2xl font-black text-slate-800">Expert Report</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Multi-Page Synthesis
+                        Engine</p>
+                </div>
+
+                <div class="flex-grow overflow-y-auto space-y-5 pr-2 custom-scroll">
+                    <div>
+                        <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">Target
+                            Municipality</label>
+                        <input id="in-muni" type="text" placeholder="e.g. CDO, Misamis Oriental" oninput="syncReport()"
+                            class="w-full p-2.5 bg-white border rounded-xl text-sm font-semibold outline-green-500">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">GEE Map ThumbURL
+                            (Visual Export)</label>
+                        <textarea id="in-map-url" rows="2" placeholder="Paste link from GEE console..."
+                            oninput="syncReport()"
+                            class="w-full p-2 bg-white border rounded-lg text-[10px] font-mono"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 border-t pt-4">
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 uppercase block">Simulation (mm)</label>
+                            <input id="in-rain" type="number" value="100" oninput="syncReport()"
+                                class="w-full p-2 border rounded-lg text-sm font-bold">
+                        </div>
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 uppercase block">Pop. at Risk</label>
+                            <input id="in-pop" type="text" placeholder="0" oninput="syncReport()"
+                                class="w-full p-2 border rounded-lg text-sm font-bold">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">AI Historical
+                            Disclosure</label>
+                        <textarea id="in-narrative" rows="4" placeholder="Paste narrative from summary pop-up..."
+                            oninput="syncReport()"
+                            class="w-full p-2.5 bg-white border rounded-xl text-xs leading-relaxed"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">Practical
+                            Recommendations</label>
+                        <textarea id="in-recs" rows="4" placeholder="• Item 1&#10;• Item 2..." oninput="syncReport()"
+                            class="w-full p-2.5 bg-white border rounded-xl text-xs leading-relaxed"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 border-b pb-4">
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 uppercase block">Crop Loss (Ha)</label>
+                            <input id="in-crops" type="text" placeholder="0.00" oninput="syncReport()"
+                                class="w-full p-2 border rounded-lg text-sm font-bold">
+                        </div>
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 uppercase block">Residential (Ha)</label>
+                            <input id="in-houses" type="text" placeholder="0.00" oninput="syncReport()"
+                                class="w-full p-2 border rounded-lg text-sm font-bold">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- AUTOMATION CONTROL PANEL -->
+            <div class="absolute bottom-6 left-6 z-50">
+                <button onclick="download3PagePDF()"
+                    class="bg-slate-900 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-black transition flex items-center gap-3">
+                    <i class="fa-solid fa-download"></i> Save Official Report (PDF)
+                </button>
+                <button onclick="closeReportModal()"
+                    class="bg-white text-slate-500 px-6 py-3 rounded-full font-bold shadow-lg hover:text-red-600 transition ml-3">
+                    Close
+                </button>
+            </div>
+
+            <!-- PDF PREVIEW WINDOW -->
+            <div id="pdf-preview-container"
+                class="flex-grow bg-slate-200 p-12 overflow-y-auto overflow-x-hidden scroll-smooth">
+
+                <!-- PAGE 1: VISUAL MAP & METADATA -->
+                <div id="report-page-1" class="pdf-page">
+                    <div class="pdf-watermark">SINAGSPATIAL</div>
+
+                    <div class="pdf-header">
+                        <div>
+                            <h1 class="text-3xl font-black text-slate-900 tracking-tight">OFFICIAL RISK ASSESSMENT</h1>
+                            <p class="text-green-600 font-bold tracking-[0.2em] text-[10px] uppercase">Page 01: Visual
+                                Spatial Summary</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-black text-lg text-slate-800">SINAGSPATIAL</p>
+                            <p class="text-[8px] text-slate-400 font-bold uppercase tracking-widest">Analytics Platform
+                                v2.0</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <p class="text-[12px] font-black text-slate-400 uppercase tracking-widest mb-1">Target Area</p>
+                        <h2 id="p1-muni" class="text-4xl font-black text-slate-900">--</h2>
+                    </div>
+
+                    <!-- MAP AREA -->
+                    <div
+                        class="w-full aspect-[16/9] bg-slate-100 rounded-2xl border-2 border-slate-200 overflow-hidden relative shadow-lg mb-8">
+                        <img id="p1-map-img"
+                            src="https://via.placeholder.com/800x450/f1f5f9/64748b?text=Place+Map+Export+Link+in+Editor"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="absolute bottom-6 right-6 bg-white/95 p-4 rounded-xl border-t-4 border-green-500 shadow-xl w-48 z-10">
+                            <h4 class="text-[10px] font-black uppercase text-slate-900 border-b pb-2 mb-2">Hazard Legend
+                            </h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3 text-[10px] font-bold">
+                                    <span class="w-4 h-4 rounded-sm bg-red-600"></span> <span>Critical Inundation</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-[10px] font-bold">
+                                    <span class="w-4 h-4 rounded-sm bg-orange-500"></span> <span>Moderate Risk</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-[10px] font-bold">
+                                    <span class="w-4 h-4 rounded-sm bg-yellow-400"></span> <span>Low Risk Pockets</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-[10px] font-bold">
+                                    <span class="w-4 h-4 rounded-sm bg-blue-600"></span> <span>Drainage Network</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Hazard Parameter Configuration</div>
+                    <div class="grid grid-cols-2 gap-8 text-[11px] leading-relaxed mb-auto">
+                        <div class="space-y-3">
+                            <div class="flex justify-between border-b border-slate-100 pb-1 font-bold">
+                                <span class="text-slate-400 uppercase italic">Simulation Volume</span>
+                                <span id="p1-rain" class="text-slate-900">100 mm</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-100 pb-1 font-bold">
+                                <span class="text-slate-400 uppercase italic">Reference Datum</span>
+                                <span class="text-slate-900">WGS84 / EGM96</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl italic text-slate-500 text-[10px]">
+                            "This map represents a pluvial flood simulation using the HAND (Height Above Nearest
+                            Drainage) algorithm. It depicts areas susceptible to inundation relative to the vertical
+                            elevation of the local drainage network."
+                        </div>
+                    </div>
+
+                    <div class="pdf-footer">
+                        <span>Unofficial Summary for Planning | Generated by SinagSpatial Tool</span>
+                        <span id="p1-date" class="font-bold">FEBRUARY 05, 2026</span>
+                        <span>PAGE 01 / 03</span>
+                    </div>
+                </div>
+
+                <!-- PAGE 2: IMPACT & NARRATIVE -->
+                <div id="report-page-2" class="pdf-page">
+                    <div class="pdf-watermark">SINAGSPATIAL</div>
+                    <div class="pdf-header text-xs font-bold text-slate-400">PAGE 02: EXECUTIVE IMPACT & AI NARRATIVE
+                    </div>
+
+                    <div class="flex justify-between items-end mb-8">
+                        <h2 class="text-3xl font-black text-slate-900">SITUATIONAL ANALYSIS</h2>
+                        <div class="text-right p-3 bg-red-600 text-white rounded-lg">
+                            <p class="text-[8px] font-bold uppercase mb-1">Humanitarian Concern</p>
+                            <p id="p2-pop" class="text-2xl font-black leading-none">0 people</p>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Quantitative Impact Summary</div>
+                    <div class="stat-grid mb-8">
+                        <div class="stat-item">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Crops
+                                Exposure</p>
+                            <p id="p2-crops" class="text-2xl font-black text-slate-800">0.00 Ha</p>
+                            <p class="text-[8px] text-slate-400 mt-2 italic">Source: ESA WorldCover (10m)</p>
+                        </div>
+                        <div class="stat-item">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Residential
+                                Inundation</p>
+                            <p id="p2-houses" class="text-2xl font-black text-slate-800">0.00 Ha</p>
+                            <p class="text-[8px] text-slate-400 mt-2 italic">Source: MERIT-Hydro HAND Mask</p>
+                        </div>
+                    </div>
+
+                    <div class="section-title">🧠 AI Historical Context & Disclosure</div>
+                    <div id="p2-narrative"
+                        class="p-6 bg-slate-50 border-l-4 border-slate-900 text-[11.5pt] leading-[1.6] text-slate-700 italic rounded-r-xl mb-12">
+                        --
+                    </div>
+
+                    <div class="section-title">📢 Strategic Action Recommendations</div>
+                    <div id="p2-recs"
+                        class="text-[11pt] text-slate-800 space-y-3 mb-auto leading-relaxed whitespace-pre-line px-4">
+                        --
+                    </div>
+
+                    <div class="pdf-footer">
+                        <span>Humanitarian Geospatial Intelligence Services</span>
+                        <span id="p2-date" class="font-bold">--</span>
+                        <span>PAGE 02 / 03</span>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: METHODOLOGY & VALIDATION -->
+                <div id="report-page-3" class="pdf-page">
+                    <div class="pdf-watermark">SINAGSPATIAL</div>
+                    <div class="pdf-header text-xs font-bold text-slate-400">PAGE 03: TECHNICAL METHODOLOGY & SOURCES
+                    </div>
+
+                    <h2 class="text-2xl font-black text-slate-900 mb-6">SCIENTIFIC FRAMEWORK</h2>
+
+                    <div class="grid grid-cols-5 gap-8 mb-10">
+                        <div class="col-span-3 space-y-4">
+                            <div class="section-title">Modelling approach</div>
+                            <p class="text-[10pt] text-slate-600 leading-relaxed">
+                                This simulation utilizes the <b>HAND (Height Above Nearest Drainage)</b> methodology.
+                                HAND normalizes topographic elevation relative to the nearest stream channel (drainage
+                                line), allowing for a static susceptibility assessment that is more physically realistic
+                                than standard Digital Elevation Models (DEMs).
+                            </p>
+                            <p class="text-[10pt] text-slate-600 leading-relaxed">
+                                By sliding the rainfall volume, we simulate vertical "stage rise" correlated to
+                                precipitative intensity, identifying low-lying areas most prone to flash flooding and
+                                river swelling.
+                            </p>
+                        </div>
+                        <div class="col-span-2 bg-slate-50 p-6 rounded-2xl border-2 border-dashed border-slate-200">
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase mb-4">Core Data Integrity</h4>
+                            <ul class="text-[9pt] font-semibold space-y-3 text-slate-500 italic">
+                                <li>• GEE MERIT-HYDRO (30M)</li>
+                                <li>• COPERNICUS DEM GLO30</li>
+                                <li>• WORLDPOP GPW V11 (2020)</li>
+                                <li>• ESA WORLDCOVER (10M)</li>
+                                <li>• NASA GPM IMERG V6</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Software Development Attribution</div>
+                    <div class="flex items-start gap-8 border-2 border-slate-100 p-8 rounded-3xl mb-auto">
+                        <div
+                            class="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-3xl shrink-0">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-slate-900">ENGR. DAVE U. GEPALAGO</h3>
+                            <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer & Hydrologist</p>
+                            <p class="text-[9pt] text-slate-500 leading-relaxed">
+                                Specialist in Disaster Risk Analysis and Web-GIS integration. Developed the SinagSpatial
+                                series of tools to provide LGUs with accessible, satellite-driven decision support
+                                during rapid-onset hazard events.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="mt-12 flex justify-between items-center text-[7pt] text-slate-400 font-black uppercase tracking-widest p-4 border border-slate-100 rounded-xl">
+                        <span>Unofficial Report Snapshot</span>
+                        <span>Verification Token: 2026-FPORTAL-SS</span>
+                        <span>SinagSpatial v2.0 Platform</span>
+                    </div>
+
+                    <div class="pdf-footer">
+                        <span>SinagSpatial Project Portfolio - Phil. GIS</span>
+                        <span id="p3-date" class="font-bold">--</span>
+                        <span>PAGE 03 / 03</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-stone-200 text-stone-500 py-6 mt-10">
+        <div class="container mx-auto px-4 text-center text-[10px] font-bold tracking-widest uppercase">
+            <p>&copy; 2026 Developed by Engr. Dave U. Gepalago | GIS Learning Portal by Engr DUG</p>
+        </div>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('report-modal');
+        const { jsPDF } = window.jspdf;
+
+        // --- SMART-LINK DATA SYNC ---
+        window.onload = function () {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('muni')) {
+                document.getElementById('in-muni').value = params.get('muni');
+                document.getElementById('in-rain').value = params.get('rain');
+                document.getElementById('in-pop').value = params.get('pop');
+                document.getElementById('in-crops').value = params.get('crops');
+                document.getElementById('in-houses').value = params.get('houses');
+                document.getElementById('in-narrative').value = decodeURIComponent(params.get('narrative'));
+                document.getElementById('in-recs').value = decodeURIComponent(params.get('recs'));
+
+                // NEW: Handle Map Thumbnail URL
+                if (params.has('map')) {
+                    document.getElementById('in-map-url').value = decodeURIComponent(params.get('map'));
+                }
+
+                openReportModal();
+                syncReport();
+            }
+        }
+
+        function openReportModal() {
+            modal.classList.remove('hidden');
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
+
+            // Set all dates
+            document.getElementById('p1-date').innerText = dateStr;
+            document.getElementById('p2-date').innerText = dateStr;
+            document.getElementById('p3-date').innerText = dateStr;
+        }
+
+        function closeReportModal() { modal.classList.add('hidden'); }
+
+        function syncReport() {
+            const muni = document.getElementById('in-muni').value || 'Target Area';
+            const rain = document.getElementById('in-rain').value || '100';
+            const mapUrl = document.getElementById('in-map-url').value;
+            const pop = document.getElementById('in-pop').value || '0';
+            const crops = document.getElementById('in-crops').value || '0.00';
+            const houses = document.getElementById('in-houses').value || '0.00';
+            const narrative = document.getElementById('in-narrative').value || '--';
+            const recs = document.getElementById('in-recs').value || '--';
+
+            // Page 1
+            document.getElementById('p1-muni').innerText = muni;
+            document.getElementById('p1-rain').innerText = rain + " mm";
+            if (mapUrl && mapUrl.trim() !== '') {
+                document.getElementById('p1-map-img').src = mapUrl;
+            }
+
+            // Page 2
+            document.getElementById('p2-pop').innerText = pop + " people";
+            document.getElementById('p2-crops').innerText = crops + " Ha";
+            document.getElementById('p2-houses').innerText = houses + " Ha";
+            document.getElementById('p2-narrative').innerText = narrative;
+            document.getElementById('p2-recs').innerText = recs;
+        }
+
+        // --- SIDEBAR TOGGLE LOGIC ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('nav-sidebar');
+            const overlay = document.getElementById('nav-overlay');
+
+            if (sidebar.classList.contains('-translate-x-full')) {
+                // Open
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10); // Fade in
+            } else {
+                // Close
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300); // Wait for fade out
+            }
+        }
+
+        // --- VIEW SWITCHING LOGIC (SPA) ---
+        function switchView(viewId) {
+            // Hide all views
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-simulator').classList.add('hidden');
+
+            // Show target view
+            document.getElementById(viewId).classList.remove('hidden');
+
+            // Close sidebar if on mobile
+            const sidebar = document.getElementById('nav-sidebar');
+            if (!sidebar.classList.contains('-translate-x-full')) {
+                toggleSidebar();
+            }
+        }
+
+        async function download3PagePDF() {
+            const btn = document.querySelector('button[onclick="download3PagePDF()"]');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rendering Report...';
+            btn.disabled = true;
+
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pageIds = ['report-page-1', 'report-page-2', 'report-page-3'];
+
+            try {
+                for (let i = 0; i < pageIds.length; i++) {
+                    const page = document.getElementById(pageIds[i]);
+                    const canvas = await html2canvas(page, {
+                        scale: 2, // 2x quality
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: '#ffffff'
+                    });
+
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                    if (i > 0) pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                }
+
+                const muni = document.getElementById('in-muni').value || 'Report';
+                pdf.save(`SinagSpatial_Report_${muni.replace(/\s+/g, '_')}_2026.pdf`);
+            } catch (err) {
+                console.error('PDF Generation Failed:', err);
+                alert('An error occurred while generating the PDF. Please check your Map Image URL.');
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-download"></i> Save as 3-Page PDF';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
