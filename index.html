@@ -1016,6 +1016,25 @@
             }
 
             // 4. VIEW MANAGER
+            function switchView(viewId) {
+                // Hide all main views
+                ['view-home', 'view-simulator', 'view-mission-card'].forEach(id => {
+                    document.getElementById(id).classList.add('hidden');
+                });
+
+                // Show target view
+                const target = document.getElementById(viewId);
+                if (target) {
+                    target.classList.remove('hidden');
+                    target.classList.add('animate-fade-in');
+                }
+
+                // specific logic for Home
+                if (viewId === 'view-home') {
+                    toggleDrawer(); // close drawer if open
+                }
+            }
+
             function renderNavItems() {
                 const container = document.getElementById('nav-items-container');
                 let html = '';
