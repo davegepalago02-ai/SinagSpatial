@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SinagSpatial | Official Flood Risk Tool</title>
+    <title>SinagSpatial</title>
 
     <!-- Tailwind CSS with Custom Theme -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -206,7 +206,8 @@
                 </button>
 
                 <!-- Brand -->
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition"
+                    onclick="switchView('view-home')">
                     <img src="assets/sinagspatial_icon.svg"
                         class="w-10 h-10 shadow-[0_0_15px_#39FF14] rounded-full p-1 border-2 border-[#39FF14]/50 bg-[#0B1026]">
                     <div>
@@ -650,7 +651,7 @@
 
         <!-- FOOTER -->
         <!-- FOOTER: DEEP SPACE COMPONENT -->
-        <footer class="bg-deepSpace border-t-2 border-radarGreen text-slate-200 py-12 mt-auto relative z-10">
+        <footer class="bg-[#0B1026] border-t-2 border-[#39FF14] text-slate-200 py-12 mt-auto relative z-10">
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
@@ -659,9 +660,9 @@
                         <div class="flex items-center gap-3 mb-2">
                             <img src="assets/sinagspatial_icon.svg"
                                 class="w-10 h-10 shadow-[0_0_15px_#39FF14] rounded-full">
-                            <h3 class="font-black text-xl tracking-widest text-[#00E5FF]">SINAGSPATIAL</h3>
+                            <h3 class="font-black text-xl tracking-widest text-cyan-400">SINAGSPATIAL</h3>
                         </div>
-                        <p class="text-sm font-light italic text-[#39FF14]/80">"Piercing the Clouds for a Resilient
+                        <p class="text-sm font-light italic text-radarGreen/80">"Piercing the Clouds for a Resilient
                             Philippines."</p>
                         <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
                             Data processing complies with <b class="text-white">RA 10173 (Data Privacy Act of 2012)</b>.
