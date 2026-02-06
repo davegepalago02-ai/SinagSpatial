@@ -1,3 +1,11 @@
+<!-- 
+  COPYRIGHT NOTICE
+  (c) 2026 Engr. Dave U. Gepalago
+  All Rights Reserved.
+  
+  Unauthorized copying, modification, distribution, or use of this code, 
+  via any medium, is strictly prohibited.
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -450,7 +458,8 @@
 
                     <div class="pdf-header">
                         <div>
-                            <h1 class="text-3xl font-black text-slate-900 tracking-tight">FLOOD RISK ASSESSMENT REPORT </h1>
+                            <h1 class="text-3xl font-black text-slate-900 tracking-tight">FLOOD RISK ASSESSMENT REPORT
+                            </h1>
                             <p class="text-green-600 font-bold tracking-[0.2em] text-[10px] uppercase">Page 01: Visual
                                 Spatial Summary</p>
                         </div>
@@ -603,184 +612,196 @@
                         </div>
                     </div>
 
-                    <div class="section-title"<DEVELOPER</div>
-                    <div class="flex items-start gap-8 border-2 border-slate-100 p-8 rounded-3xl mb-auto">
+                    <div class="section-title" <DEVELOPER</div>
+                        <div class="flex items-start gap-8 border-2 border-slate-100 p-8 rounded-3xl mb-auto">
+                            <div
+                                class="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-3xl shrink-0">
+                                <i class="fa-solid fa-user-gear"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-black text-slate-900">ENGR. DAVE U. GEPALAGO</h3>
+                                <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer & RABE</p>
+                                <p class="text-[9pt] text-slate-500 leading-relaxed">
+                                    Specialist in Disaster Risk Analysis and Web-GIS integration. Developed the
+                                    SinagSpatial
+                                    series of tools to provide LGUs with accessible, satellite-driven decision support
+                                    during rapid-onset hazard events.
+                                </p>
+                            </div>
+                        </div>
+
                         <div
-                            class="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-3xl shrink-0">
-                            <i class="fa-solid fa-user-gear"></i>
+                            class="mt-12 flex justify-between items-center text-[7pt] text-slate-400 font-black uppercase tracking-widest p-4 border border-slate-100 rounded-xl">
+                            <span>Unofficial Report Snapshot</span>
+                            <span>Verification Token: 2026-FPORTAL-SS</span>
+                            <span>SinagSpatial v2.0 Platform</span>
                         </div>
-                        <div>
-                            <h3 class="text-xl font-black text-slate-900">ENGR. DAVE U. GEPALAGO</h3>
-                            <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer & RABE</p>
-                            <p class="text-[9pt] text-slate-500 leading-relaxed">
-                                Specialist in Disaster Risk Analysis and Web-GIS integration. Developed the SinagSpatial
-                                series of tools to provide LGUs with accessible, satellite-driven decision support
-                                during rapid-onset hazard events.
-                            </p>
+
+                        <div class="pdf-footer">
+                            <span>SinagSpatial</span>
+                            <span id="p3-date" class="font-bold">--</span>
+                            <span>PAGE 03 / 03</span>
                         </div>
                     </div>
 
-                    <div
-                        class="mt-12 flex justify-between items-center text-[7pt] text-slate-400 font-black uppercase tracking-widest p-4 border border-slate-100 rounded-xl">
-                        <span>Unofficial Report Snapshot</span>
-                        <span>Verification Token: 2026-FPORTAL-SS</span>
-                        <span>SinagSpatial v2.0 Platform</span>
-                    </div>
-
-                    <div class="pdf-footer">
-                        <span>SinagSpatial</span>
-                        <span id="p3-date" class="font-bold">--</span>
-                        <span>PAGE 03 / 03</span>
-                    </div>
                 </div>
-
             </div>
         </div>
-    </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-stone-200 text-stone-500 py-6 mt-10">
-        <div class="container mx-auto px-4 text-center text-[10px] font-bold tracking-widest uppercase">
-            <p>&copy; 2026 Developed by Engr. Dave U. Gepalago | SinagSpatial 2026</p>
-        </div>
-    </footer>
+        <!-- FOOTER -->
+        <footer class="bg-stone-200 text-stone-500 py-6 mt-10">
+            <div class="container mx-auto px-4 text-center text-[10px] font-bold tracking-widest uppercase">
+                <p>&copy; 2026 Developed by Engr. Dave U. Gepalago | SinagSpatial 2026</p>
+            </div>
+        </footer>
 
-    <script>
-        const modal = document.getElementById('report-modal');
-        const { jsPDF } = window.jspdf;
+        <script>
+            const modal = document.getElementById('report-modal');
+            const { jsPDF } = window.jspdf;
 
-        // --- SMART-LINK DATA SYNC ---
-        window.onload = function () {
-            const params = new URLSearchParams(window.location.search);
-            if (params.has('muni')) {
-                document.getElementById('in-muni').value = params.get('muni');
-                document.getElementById('in-rain').value = params.get('rain');
-                document.getElementById('in-pop').value = params.get('pop');
-                document.getElementById('in-crops').value = params.get('crops');
-                document.getElementById('in-houses').value = params.get('houses');
-                document.getElementById('in-narrative').value = decodeURIComponent(params.get('narrative'));
-                document.getElementById('in-recs').value = decodeURIComponent(params.get('recs'));
+            // --- SMART-LINK DATA SYNC ---
+            window.onload = function () {
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('muni')) {
+                    document.getElementById('in-muni').value = params.get('muni');
+                    document.getElementById('in-rain').value = params.get('rain');
+                    document.getElementById('in-pop').value = params.get('pop');
+                    document.getElementById('in-crops').value = params.get('crops');
+                    document.getElementById('in-houses').value = params.get('houses');
+                    document.getElementById('in-narrative').value = decodeURIComponent(params.get('narrative'));
+                    document.getElementById('in-recs').value = decodeURIComponent(params.get('recs'));
 
-                // NEW: Handle Map Thumbnail URL
-                if (params.has('map')) {
-                    document.getElementById('in-map-url').value = decodeURIComponent(params.get('map'));
+                    // NEW: Handle Map Thumbnail URL
+                    if (params.has('map')) {
+                        document.getElementById('in-map-url').value = decodeURIComponent(params.get('map'));
+                    }
+
+                    openReportModal();
+                    syncReport();
+                }
+            }
+
+            function openReportModal() {
+                modal.classList.remove('hidden');
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
+
+                // Set all dates
+                document.getElementById('p1-date').innerText = dateStr;
+                document.getElementById('p2-date').innerText = dateStr;
+                document.getElementById('p3-date').innerText = dateStr;
+            }
+
+            function closeReportModal() { modal.classList.add('hidden'); }
+
+            function syncReport() {
+                const muni = document.getElementById('in-muni').value || 'Target Area';
+                const rain = document.getElementById('in-rain').value || '100';
+                const mapUrl = document.getElementById('in-map-url').value;
+                const pop = document.getElementById('in-pop').value || '0';
+                const crops = document.getElementById('in-crops').value || '0.00';
+                const houses = document.getElementById('in-houses').value || '0.00';
+                const narrative = document.getElementById('in-narrative').value || '--';
+                const recs = document.getElementById('in-recs').value || '--';
+
+                // Page 1
+                document.getElementById('p1-muni').innerText = muni;
+                document.getElementById('p1-rain').innerText = rain + " mm";
+                if (mapUrl && mapUrl.trim() !== '') {
+                    document.getElementById('p1-map-img').src = mapUrl;
                 }
 
-                openReportModal();
-                syncReport();
-            }
-        }
-
-        function openReportModal() {
-            modal.classList.remove('hidden');
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
-
-            // Set all dates
-            document.getElementById('p1-date').innerText = dateStr;
-            document.getElementById('p2-date').innerText = dateStr;
-            document.getElementById('p3-date').innerText = dateStr;
-        }
-
-        function closeReportModal() { modal.classList.add('hidden'); }
-
-        function syncReport() {
-            const muni = document.getElementById('in-muni').value || 'Target Area';
-            const rain = document.getElementById('in-rain').value || '100';
-            const mapUrl = document.getElementById('in-map-url').value;
-            const pop = document.getElementById('in-pop').value || '0';
-            const crops = document.getElementById('in-crops').value || '0.00';
-            const houses = document.getElementById('in-houses').value || '0.00';
-            const narrative = document.getElementById('in-narrative').value || '--';
-            const recs = document.getElementById('in-recs').value || '--';
-
-            // Page 1
-            document.getElementById('p1-muni').innerText = muni;
-            document.getElementById('p1-rain').innerText = rain + " mm";
-            if (mapUrl && mapUrl.trim() !== '') {
-                document.getElementById('p1-map-img').src = mapUrl;
+                // Page 2
+                document.getElementById('p2-pop').innerText = pop + " people";
+                document.getElementById('p2-crops').innerText = crops + " Ha";
+                document.getElementById('p2-houses').innerText = houses + " Ha";
+                document.getElementById('p2-narrative').innerText = narrative;
+                document.getElementById('p2-recs').innerText = recs;
             }
 
-            // Page 2
-            document.getElementById('p2-pop').innerText = pop + " people";
-            document.getElementById('p2-crops').innerText = crops + " Ha";
-            document.getElementById('p2-houses').innerText = houses + " Ha";
-            document.getElementById('p2-narrative').innerText = narrative;
-            document.getElementById('p2-recs').innerText = recs;
-        }
+            // --- SIDEBAR TOGGLE LOGIC ---
+            function toggleSidebar() {
+                const sidebar = document.getElementById('nav-sidebar');
+                const overlay = document.getElementById('nav-overlay');
 
-        // --- SIDEBAR TOGGLE LOGIC ---
-        function toggleSidebar() {
-            const sidebar = document.getElementById('nav-sidebar');
-            const overlay = document.getElementById('nav-overlay');
-
-            if (sidebar.classList.contains('-translate-x-full')) {
-                // Open
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10); // Fade in
-            } else {
-                // Close
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300); // Wait for fade out
-            }
-        }
-
-        // --- VIEW SWITCHING LOGIC (SPA) ---
-        function switchView(viewId) {
-            // Hide all views
-            document.getElementById('view-home').classList.add('hidden');
-            document.getElementById('view-simulator').classList.add('hidden');
-
-            // Show target view
-            document.getElementById(viewId).classList.remove('hidden');
-
-            // Close sidebar if on mobile
-            const sidebar = document.getElementById('nav-sidebar');
-            if (!sidebar.classList.contains('-translate-x-full')) {
-                toggleSidebar();
-            }
-        }
-
-        async function download3PagePDF() {
-            const btn = document.querySelector('button[onclick="download3PagePDF()"]');
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rendering Report...';
-            btn.disabled = true;
-
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const pageIds = ['report-page-1', 'report-page-2', 'report-page-3'];
-
-            try {
-                for (let i = 0; i < pageIds.length; i++) {
-                    const page = document.getElementById(pageIds[i]);
-                    const canvas = await html2canvas(page, {
-                        scale: 2, // 2x quality
-                        useCORS: true,
-                        allowTaint: true,
-                        backgroundColor: '#ffffff'
-                    });
-
-                    const imgData = canvas.toDataURL('image/png');
-                    const imgProps = pdf.getImageProperties(imgData);
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                    if (i > 0) pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    // Open
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.remove('opacity-0'), 10); // Fade in
+                } else {
+                    // Close
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('opacity-0');
+                    setTimeout(() => overlay.classList.add('hidden'), 300); // Wait for fade out
                 }
-
-                const muni = document.getElementById('in-muni').value || 'Report';
-                pdf.save(`SinagSpatial_Report_${muni.replace(/\s+/g, '_')}_2026.pdf`);
-            } catch (err) {
-                console.error('PDF Generation Failed:', err);
-                alert('An error occurred while generating the PDF. Please check your Map Image URL.');
-            } finally {
-                btn.innerHTML = '<i class="fa-solid fa-download"></i> Save as 3-Page PDF';
-                btn.disabled = false;
             }
-        }
-    </script>
+
+            // --- VIEW SWITCHING LOGIC (SPA) ---
+            function switchView(viewId) {
+                // Hide all views
+                document.getElementById('view-home').classList.add('hidden');
+                document.getElementById('view-simulator').classList.add('hidden');
+
+                // Show target view
+                document.getElementById(viewId).classList.remove('hidden');
+
+                // Close sidebar if on mobile
+                const sidebar = document.getElementById('nav-sidebar');
+                if (!sidebar.classList.contains('-translate-x-full')) {
+                    toggleSidebar();
+                }
+            }
+
+            async function download3PagePDF() {
+                const btn = document.querySelector('button[onclick="download3PagePDF()"]');
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rendering Report...';
+                btn.disabled = true;
+
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pageIds = ['report-page-1', 'report-page-2', 'report-page-3'];
+
+                try {
+                    for (let i = 0; i < pageIds.length; i++) {
+                        const page = document.getElementById(pageIds[i]);
+                        const canvas = await html2canvas(page, {
+                            scale: 2, // 2x quality
+                            useCORS: true,
+                            allowTaint: true,
+                            backgroundColor: '#ffffff'
+                        });
+
+                        const imgData = canvas.toDataURL('image/png');
+                        const imgProps = pdf.getImageProperties(imgData);
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                        if (i > 0) pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    }
+
+                    const muni = document.getElementById('in-muni').value || 'Report';
+                    pdf.save(`SinagSpatial_Report_${muni.replace(/\s+/g, '_')}_2026.pdf`);
+                } catch (err) {
+                    console.error('PDF Generation Failed:', err);
+                    alert('An error occurred while generating the PDF. Please check your Map Image URL.');
+                } finally {
+                    btn.innerHTML = '<i class="fa-solid fa-download"></i> Save as 3-Page PDF';
+                    btn.disabled = false;
+                }
+            }
+        </script>
+        <script>
+            // --- CONTENT PROTECTION ---
+            document.addEventListener('contextmenu', event => event.preventDefault());
+            document.onkeydown = function (e) {
+                if (e.keyCode == 123) return false; // F12
+                if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
+                if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; // Ctrl+Shift+C
+                if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
+                if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
+            }
+        </script>
 </body>
 
 </html>
