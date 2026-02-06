@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SinagSpatial</title>
+    <title>SinagSpatia|Ongoing Development</title>
 
     <!-- Tailwind CSS with Custom Theme -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -362,6 +362,83 @@
         </div>
     </main>
 
+    <!-- FOOTER: DEEP SPACE COMPONENT -->
+    <footer class="bg-[#0B1026] border-t-2 border-[#39FF14] text-slate-200 py-12 mt-auto relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+
+                <!-- COL 1: BRAND & AUTHORITY -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 mb-2">
+                        <img src="assets/sinagspatial_icon.svg"
+                            class="w-10 h-10 shadow-[0_0_15px_#39FF14] rounded-full">
+                        <h3 class="font-black text-xl tracking-widest text-cyan-400">SINAGSPATIAL</h3>
+                    </div>
+                    <p class="text-sm font-light italic text-radarGreen/80">"Piercing the Clouds for a Resilient
+                        Philippines."</p>
+                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+                        Data processing complies with <b class="text-white">RA 10173 (Data Privacy Act of 2012)</b>.
+                        No personal geospatial data is stored without consent.
+                    </p>
+                </div>
+
+                <!-- COL 2: LEGAL & COMPLIANCE -->
+                <div>
+                    <h4 class="font-bold text-cyan-400 tracking-widest uppercase mb-6 text-sm">Legal & Compliance</h4>
+                    <div class="flex flex-col space-y-3 items-start">
+                        <button onclick="toggleModal('legal-modal')"
+                            class="text-sm text-slate-300 hover:text-radarGreen transition-colors flex items-center gap-2 group">
+                            <i class="fa-solid fa-scale-balanced text-radarGreen/50 group-hover:text-radarGreen"></i>
+                            Intellectual Property Rights
+                        </button>
+                        <button onclick="toggleModal('privacy-modal')"
+                            class="text-sm text-slate-300 hover:text-radarGreen transition-colors flex items-center gap-2 group">
+                            <i class="fa-solid fa-shield-halved text-radarGreen/50 group-hover:text-radarGreen"></i>
+                            Data Privacy Policy
+                        </button>
+                        <button onclick="toggleModal('disclaimer-modal')"
+                            class="text-sm text-slate-300 hover:text-radarGreen transition-colors flex items-center gap-2 group">
+                            <i class="fa-solid fa-copyright text-radarGreen/50 group-hover:text-radarGreen"></i>
+                            Copyrights & Attribution
+                        </button>
+                    </div>
+                </div>
+
+                <!-- COL 3: DEVELOPER CONTACT -->
+                <div>
+                    <h4 class="font-bold text-cyan-400 tracking-widest uppercase mb-6 text-sm">Developer Contact</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-bold text-white text-lg">Engr. Dave Gepalago</p>
+                            <p class="text-xs text-radarGreen uppercase tracking-wider">Agricultural & Biosystems
+                                Engineer | GIS Specialist</p>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-400 text-sm">
+                            <i class="fa-solid fa-location-dot"></i> Cagayan de Oro City, Philippines
+                        </div>
+                        <div class="flex gap-4 mt-4">
+                            <a href="#"
+                                class="w-8 h-8 rounded bg-white/10 flex items-center justify-center hover:bg-[#0077B5] hover:text-white transition text-slate-400">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            <a href="#"
+                                class="w-8 h-8 rounded bg-white/10 flex items-center justify-center hover:bg-red-600 hover:text-white transition text-slate-400">
+                                <i class="fa-solid fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COPYRIGHT LINE -->
+            <div class="border-t border-slate-800 pt-8 text-center">
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">
+                    &copy; 2026 SinagSpatial. Powered by Google Earth Engine & Sentinel-1 SAR.
+                </p>
+            </div>
+        </div>
+    </footer>
+
     <!-- 3-PAGE PDF MODAL -->
     <div id="report-modal"
         class="fixed inset-0 bg-slate-900/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
@@ -648,87 +725,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- FOOTER -->
-        <!-- FOOTER: DEEP SPACE COMPONENT -->
-        <footer class="bg-[#0B1026] border-t-2 border-[#39FF14] text-slate-200 py-12 mt-auto relative z-10">
-            <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-
-                    <!-- COL 1: BRAND & AUTHORITY -->
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-3 mb-2">
-                            <img src="assets/sinagspatial_icon.svg"
-                                class="w-10 h-10 shadow-[0_0_15px_#39FF14] rounded-full">
-                            <h3 class="font-black text-xl tracking-widest text-cyan-400">SINAGSPATIAL</h3>
-                        </div>
-                        <p class="text-sm font-light italic text-radarGreen/80">"Piercing the Clouds for a Resilient
-                            Philippines."</p>
-                        <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
-                            Data processing complies with <b class="text-white">RA 10173 (Data Privacy Act of 2012)</b>.
-                            No personal geospatial data is stored without consent.
-                        </p>
-                    </div>
-
-                    <!-- COL 2: LEGAL & COMPLIANCE -->
-                    <div>
-                        <h4 class="font-bold text-cyan-400 tracking-widest uppercase mb-6 text-sm">Legal & Compliance
-                        </h4>
-                        <div class="flex flex-col space-y-3 items-start">
-                            <button onclick="toggleModal('legal-modal')"
-                                class="text-sm text-slate-300 hover:text-radarGreen transition-colors flex items-center gap-2 group">
-                                <i
-                                    class="fa-solid fa-scale-balanced text-radarGreen/50 group-hover:text-radarGreen"></i>
-                                Intellectual Property Rights
-                            </button>
-                            <button onclick="toggleModal('privacy-modal')"
-                                class="text-sm text-slate-300 hover:text-radarGreen transition-colors flex items-center gap-2 group">
-                                <i class="fa-solid fa-shield-halved text-radarGreen/50 group-hover:text-radarGreen"></i>
-                                Data Privacy Policy
-                            </button>
-                            <button onclick="toggleModal('disclaimer-modal')"
-                                class="text-sm text-slate-300 hover:text-radarGreen transition-colors flex items-center gap-2 group">
-                                <i class="fa-solid fa-copyright text-radarGreen/50 group-hover:text-radarGreen"></i>
-                                Copyrights & Attribution
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- COL 3: DEVELOPER CONTACT -->
-                    <div>
-                        <h4 class="font-bold text-cyan-400 tracking-widest uppercase mb-6 text-sm">Developer Contact
-                        </h4>
-                        <div class="space-y-4">
-                            <div>
-                                <p class="font-bold text-white text-lg">Engr. Dave Gepalago</p>
-                                <p class="text-xs text-radarGreen uppercase tracking-wider">Agricultural & Biosystems
-                                    Engineer | GIS Specialist</p>
-                            </div>
-                            <div class="flex items-center gap-3 text-slate-400 text-sm">
-                                <i class="fa-solid fa-location-dot"></i> Cagayan de Oro City, Philippines
-                            </div>
-                            <div class="flex gap-4 mt-4">
-                                <a href="#"
-                                    class="w-8 h-8 rounded bg-white/10 flex items-center justify-center hover:bg-[#0077B5] hover:text-white transition text-slate-400">
-                                    <i class="fa-brands fa-linkedin-in"></i>
-                                </a>
-                                <a href="#"
-                                    class="w-8 h-8 rounded bg-white/10 flex items-center justify-center hover:bg-red-600 hover:text-white transition text-slate-400">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- COPYRIGHT LINE -->
-                <div class="border-t border-slate-800 pt-8 text-center">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">
-                        &copy; 2026 SinagSpatial. Powered by Google Earth Engine & Sentinel-1 SAR.
-                    </p>
-                </div>
-            </div>
-        </footer>
 
         <!-- COMPLIANCE MODALS -->
         <!-- COMPLIANCE MODALS (UPDATED CONTENT) -->
