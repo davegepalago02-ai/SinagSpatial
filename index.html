@@ -135,10 +135,6 @@
                         <span id="basket-badge"
                             class="hidden absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
                     </button>
-                    <button onclick="openReportModal()"
-                        class="bg-radarGreen/10 hover:bg-radarGreen/20 text-radarGreen border border-radarGreen/50 px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-[0_0_10px_rgba(57,255,20,0.1)]">
-                        <i class="fa-solid fa-print"></i> <span class="hidden md:inline">Export Report</span>
-                    </button>
                 </div>
 
             </div>
@@ -225,20 +221,6 @@
 
         <!-- VIEW: FLOOD SIMULATOR -->
         <div id="view-simulator" class="hidden animate-fade-in space-y-4">
-            <div
-                class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-green-500 flex justify-between items-center">
-                <p class="text-sm text-stone-600 font-medium">
-                    <i class="fa-solid fa-circle-info text-blue-500 mr-2"></i> Analyzing local hazard profiles. Click
-                    <b>"Generate 3-Page Official Report"</b> to export analysis to PDF.
-                </p>
-                <div class="flex gap-3">
-                    <button onclick="switchView('view-home')"
-                        class="text-xs font-bold text-slate-400 hover:text-slate-600 uppercase">Back to Home</button>
-                    <span
-                        class="text-[10px] bg-slate-100 px-3 py-1 rounded-full text-slate-500 font-bold tracking-widest uppercase">Platform
-                        v3.0</span>
-                </div>
-            </div>
             <!-- GEE iframe wrapper with fullscreen support -->
             <div id="simulator-wrapper"
                 class="relative bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden h-[calc(100vh-240px)] min-h-[600px]">
