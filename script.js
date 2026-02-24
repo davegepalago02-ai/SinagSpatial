@@ -317,6 +317,7 @@ function syncReport() {
     const recs = document.getElementById('in-recs').value || '--';
     const crops = document.getElementById('in-crops').value || '0.00';
     const houses = document.getElementById('in-houses').value || '0.00';
+    const total = document.getElementById('in-total').value || '0.00';
     const mapUrl = document.getElementById('in-map-url').value;
 
     document.getElementById('p1-muni').innerText = muni;
@@ -326,6 +327,7 @@ function syncReport() {
     document.getElementById('p2-recs').innerText = recs;
     document.getElementById('p2-crops').innerText = crops + ' Ha';
     document.getElementById('p2-houses').innerText = houses + ' Ha';
+    document.getElementById('p2-total').innerText = total + ' Ha';
 
     if (mapUrl && mapUrl.trim() !== '') {
         document.getElementById('p1-map-img').src = mapUrl;
@@ -629,6 +631,7 @@ function generateFromBasket(id) {
     document.getElementById('in-pop').value = item.pop;
     document.getElementById('in-crops').value = item.crops;
     document.getElementById('in-houses').value = item.houses;
+    document.getElementById('in-total').value = item.totalArea;
     document.getElementById('in-narrative').value = generateInterpretation(item);
     document.getElementById('in-recs').value = generateRecommendations(item);
     document.getElementById('in-map-url').value = item.mapUrl || '';

@@ -434,7 +434,7 @@
                         <textarea id="in-recs" rows="4" placeholder="• Item 1&#10;• Item 2..." oninput="syncReport()"
                             class="w-full p-2.5 bg-white border rounded-xl text-xs leading-relaxed"></textarea>
                     </div>
-                    <div class="grid grid-cols-2 gap-3 border-b pb-4">
+                    <div class="grid grid-cols-3 gap-3 border-b pb-4">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 uppercase block">Crop Loss (Ha)</label>
                             <input id="in-crops" type="text" placeholder="0.00" oninput="syncReport()"
@@ -444,6 +444,12 @@
                             <label class="text-[9px] font-black text-slate-400 uppercase block">Residential (Ha)</label>
                             <input id="in-houses" type="text" placeholder="0.00" oninput="syncReport()"
                                 class="w-full p-2 border rounded-lg text-sm font-bold">
+                        </div>
+                        <div>
+                            <label class="text-[9px] font-black text-red-500 uppercase block">Total Critical Area
+                                (Ha)</label>
+                            <input id="in-total" type="text" placeholder="0.00" oninput="syncReport()"
+                                class="w-full p-2 border border-red-300 rounded-lg text-sm font-bold text-red-700">
                         </div>
                     </div>
                 </div>
@@ -556,7 +562,7 @@
                     </div>
 
                     <div class="section-title">Quantitative Impact Summary</div>
-                    <div class="stat-grid mb-8">
+                    <div class="stat-grid mb-8" style="grid-template-columns: repeat(3,1fr)">
                         <div class="stat-item">
                             <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Crops
                                 Exposure</p>
@@ -567,7 +573,13 @@
                             <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Residential
                                 Inundation</p>
                             <p id="p2-houses" class="text-2xl font-black text-slate-800">0.00 Ha</p>
-                            <p class="text-[8px] text-slate-400 mt-2 italic">Source: MERIT-Hydro HAND Mask</p>
+                            <p class="text-[8px] text-slate-400 mt-2 italic">Source: ESA WorldCover (10m)</p>
+                        </div>
+                        <div class="stat-item" style="border-left:3px solid #ef4444">
+                            <p class="text-[9px] font-black text-red-500 uppercase tracking-widest mb-1">Total Critical
+                                Flood Extent</p>
+                            <p id="p2-total" class="text-2xl font-black text-red-700">0.00 Ha</p>
+                            <p class="text-[8px] text-slate-400 mt-2 italic">Source: MERIT-Hydro HAND Model (30m)</p>
                         </div>
                     </div>
 
