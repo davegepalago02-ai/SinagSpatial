@@ -1,0 +1,41 @@
+{
+    "name": "SinagSpatial – Flood Risk Portal",
+    "short_name": "SinagSpatial",
+    "description": "Satellite-driven flood risk assessment and DRRM decision support by Engr. Dave U. Gepalago.",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#0B1026",
+    "theme_color": "#39FF14",
+    "categories": ["utilities", "productivity", "government"],
+    "icons": [
+        {
+            "src": "assets/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "Flood Simulator",
+            "short_name": "Simulator",
+            "url": "./index.html?view=simulator",
+            "description": "Launch the GEE Flood Risk Simulator"
+        },
+        {
+            "name": "Report Basket",
+            "short_name": "Basket",
+            "url": "./index.html?view=basket",
+            "description": "View saved GEE analyses"
+        }
+    ]
+}
