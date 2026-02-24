@@ -402,6 +402,9 @@ function checkBasketParam() {
         crops: parseFloat(p.get('crops') || 0),
         houses: parseFloat(p.get('houses') || 0),
         totalArea: parseFloat(p.get('totalArea') || 0),
+        highArea: parseFloat(p.get('highArea') || 0),
+        medArea: parseFloat(p.get('medArea') || 0),
+        lowArea: parseFloat(p.get('lowArea') || 0),
         histMax: parseFloat(p.get('histMax') || 0),
         forecast: parseFloat(p.get('forecast') || 0),
         mapUrl: decodeURIComponent(p.get('map') || '')
@@ -483,7 +486,7 @@ function renderBasket() {
                 <span class="severity-badge severity-${severity.toLowerCase()}">${severity}</span>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 text-[11px] mb-4">
+            <div class="grid grid-cols-2 gap-2 text-[11px] mb-3">
                 <div class="basket-metric">
                     <span class="basket-metric-label">👥 Population</span>
                     <span class="basket-metric-value">${item.pop.toLocaleString()}</span>
@@ -499,6 +502,26 @@ function renderBasket() {
                 <div class="basket-metric">
                     <span class="basket-metric-label">📐 Flood Area</span>
                     <span class="basket-metric-value">${item.totalArea} ha</span>
+                </div>
+            </div>
+
+            <!-- Susceptibility Breakdown -->
+            <div class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Susceptibility Breakdown</div>
+            <div class="flex flex-col gap-1 mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-sm flex-shrink-0" style="background:#ef4444"></span>
+                    <span class="text-[11px] text-slate-600 flex-1">Critical Inundation</span>
+                    <span class="text-[11px] font-bold text-slate-800">${item.highArea || '—'} ha</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-sm flex-shrink-0" style="background:#f97316"></span>
+                    <span class="text-[11px] text-slate-600 flex-1">Moderate Susceptibility</span>
+                    <span class="text-[11px] font-bold text-slate-800">${item.medArea || '—'} ha</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-sm flex-shrink-0" style="background:#eab308"></span>
+                    <span class="text-[11px] text-slate-600 flex-1">Low Probability</span>
+                    <span class="text-[11px] font-bold text-slate-800">${item.lowArea || '—'} ha</span>
                 </div>
             </div>
 
