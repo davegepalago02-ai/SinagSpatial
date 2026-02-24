@@ -486,6 +486,20 @@ function renderBasket() {
                 <span class="severity-badge severity-${severity.toLowerCase()}">${severity}</span>
             </div>
 
+            <!-- Clipped Map Thumbnail -->
+            ${item.mapUrl ? `
+            <div class="rounded-xl overflow-hidden border border-slate-200 mb-3 relative">
+                <img src="${item.mapUrl}" alt="Flood susceptibility map of ${item.muni}"
+                    class="w-full object-cover" style="max-height:160px;"
+                    onerror="this.parentElement.innerHTML='<div class=\'text-[10px] text-slate-400 text-center py-4\'>Map preview unavailable</div>'">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2">
+                    <span class="text-white text-[9px] font-bold tracking-wide">${item.rain} mm Simulation · HAND Model</span>
+                </div>
+            </div>` : `
+            <div class="rounded-xl bg-slate-100 border border-dashed border-slate-300 text-center text-[10px] text-slate-400 py-5 mb-3">
+                No map preview available
+            </div>`}
+
             <div class="grid grid-cols-2 gap-2 text-[11px] mb-3">
                 <div class="basket-metric">
                     <span class="basket-metric-label">👥 Population</span>
