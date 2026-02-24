@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SinagSpatia|Ongoing Development</title>
+    <title>SinagSpatial | Ongoing Development</title>
 
     <!-- Tailwind CSS with Custom Theme -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -36,133 +36,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- PDF Libraries -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0B1026;
-            /* Deep Space Blue */
-            color: #f1f5f9;
-        }
-
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: rgba(11, 16, 38, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(57, 255, 20, 0.2);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover {
-            border-color: #39FF14;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .neon-text {
-            color: #39FF14;
-            text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
-        }
-
-        .app-container {
-            height: calc(100vh - 140px);
-            min-height: 600px;
-        }
-
-        /* PDF Styles preserved... */
-        .pdf-page {
-            width: 210mm;
-            min-height: 297mm;
-            background: white;
-            padding: 20mm;
-            margin: 0 auto;
-            color: #1e293b;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pdf-watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 80pt;
-            color: rgba(34, 197, 94, 0.04);
-            font-weight: 900;
-            pointer-events: none;
-        }
-
-        .pdf-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 2px solid #0f172a;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-
-        .pdf-footer {
-            margin-top: auto;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 8pt;
-            color: #94a3b8;
-        }
-
-        .section-title {
-            background: #f1f5f9;
-            padding: 5px 10px;
-            border-left: 4px solid #39FF14;
-            font-weight: bold;
-            font-size: 10pt;
-            margin: 20px 0 10px 0;
-            text-transform: uppercase;
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .stat-item {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 12px;
-            border-radius: 6px;
-        }
-
-        /* Custom Scrollbar for Drawer */
-        #burger-drawer::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #burger-drawer::-webkit-scrollbar-thumb {
-            background: #39FF14;
-            border-radius: 3px;
-        }
-    </style>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- BURGER DRAWER (Slide-out Navigation) -->
+    <!-- ================================================ -->
+    <!-- BURGER DRAWER (Slide-out Navigation)             -->
+    <!-- ================================================ -->
     <div id="drawer-overlay" onclick="toggleDrawer()"
         class="fixed inset-0 bg-black/80 z-40 hidden backdrop-blur-sm transition-opacity"></div>
 
     <div id="burger-drawer"
         class="fixed top-0 left-0 h-full w-80 bg-deepSpace/95 text-white transform -translate-x-full transition-transform duration-300 z-50 border-r border-radarGreen/30 flex flex-col shadow-[0_0_30px_rgba(57,255,20,0.1)]">
+
         <!-- Drawer Header -->
         <div class="p-6 border-b border-radarGreen/20 flex justify-between items-center bg-black/20">
             <div>
@@ -176,10 +67,10 @@
             </button>
         </div>
 
-        <!-- Navigation Items -->
+        <!-- Navigation Items (JS-rendered) -->
         <div class="flex-grow p-4 space-y-2 overflow-y-auto">
             <div id="nav-items-container">
-                <!-- JS will inject items here -->
+                <!-- Populated by renderNavItems() in script.js -->
             </div>
         </div>
 
@@ -195,7 +86,9 @@
         </div>
     </div>
 
-    <!-- HIGH-TECH HEADER -->
+    <!-- ================================================ -->
+    <!-- HIGH-TECH HEADER                                 -->
+    <!-- ================================================ -->
     <header class="bg-deepSpace border-b border-radarGreen/20 shadow-lg relative z-30">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-6">
@@ -220,7 +113,7 @@
 
             <!-- Live Clock & Actions -->
             <div class="flex gap-4 md:gap-6 items-center">
-                <!-- Data/Clock (Desktop) -->
+                <!-- Clock (Desktop Only) -->
                 <div class="hidden md:block text-right">
                     <div id="mission-clock" class="text-radarGreen font-mono text-lg font-bold leading-none">00:00:00
                     </div>
@@ -228,13 +121,12 @@
                         Initialization...</div>
                 </div>
 
-                <!-- ACTIONS -->
+                <!-- Action Buttons -->
                 <div class="flex items-center gap-2">
                     <button onclick="switchView('view-home')"
                         class="bg-radarGreen/10 hover:bg-radarGreen/20 text-radarGreen border border-radarGreen/50 px-4 py-2 rounded-lg text-xs font-bold transition shadow-[0_0_10px_rgba(57,255,20,0.1)]">
                         <i class="fa-solid fa-house"></i>
                     </button>
-
                     <button onclick="openReportModal()"
                         class="bg-radarGreen/10 hover:bg-radarGreen/20 text-radarGreen border border-radarGreen/50 px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-[0_0_10px_rgba(57,255,20,0.1)]">
                         <i class="fa-solid fa-print"></i> <span class="hidden md:inline">Export Report</span>
@@ -244,12 +136,12 @@
         </div>
     </header>
 
-    <!-- CONTENT CONTAINER -->
+    <!-- ================================================ -->
+    <!-- MAIN CONTENT                                     -->
+    <!-- ================================================ -->
     <main class="flex-grow container mx-auto px-4 py-6 relative">
 
-        <!-- ======================= -->
         <!-- VIEW: HOME DASHBOARD -->
-        <!-- ======================= -->
         <div id="view-home" class="space-y-8 animate-fade-in">
             <!-- Hero Banner -->
             <div
@@ -258,7 +150,6 @@
                     <i
                         class="fa-solid fa-screwdriver-wrench text-9xl text-white transform rotate-12 translate-x-10 -translate-y-10"></i>
                 </div>
-
                 <span
                     class="inline-block bg-yellow-500/20 text-yellow-300 border border-yellow-500/50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 animate-pulse">
                     <i class="fa-solid fa-cone"></i> Site Under Construction
@@ -268,7 +159,6 @@
                 <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-8">A centralized platform for advanced Disaster
                     Risk Reduction & Management (DRRM) intelligence. We transform complex geospatial data into
                     actionable insights for LGUs.</p>
-
                 <button onclick="switchView('view-simulator')"
                     class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-xl font-bold transition shadow-lg shadow-green-900/50 flex items-center gap-3 mx-auto">
                     <i class="fa-solid fa-play"></i> Launch Flood Simulator
@@ -291,7 +181,6 @@
                         open-source data (Sentinel-1, Sentinel-2, MERIT-Hydro), we can build resilient communities
                         together.
                     </p>
-
                     <div class="flex gap-4">
                         <a href="#"
                             class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-2"><i
@@ -325,9 +214,7 @@
             </div>
         </div>
 
-        <!-- ======================= -->
         <!-- VIEW: FLOOD SIMULATOR -->
-        <!-- ======================= -->
         <div id="view-simulator" class="hidden animate-fade-in space-y-4">
             <div
                 class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-green-500 flex justify-between items-center">
@@ -343,7 +230,6 @@
                         v3.0</span>
                 </div>
             </div>
-
             <div
                 class="bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden app-container relative h-[calc(100vh-240px)] min-h-[600px]">
                 <iframe id="gee-app-frame" src="https://ee-dugproject.projects.earthengine.app/view/flood-risk-mapping"
@@ -352,17 +238,17 @@
             </div>
         </div>
 
-        <!-- ======================= -->
-        <!-- VIEW: MISSION BRIEFING -->
-        <!-- ======================= -->
+        <!-- VIEW: MISSION BRIEFING CARD -->
         <div id="view-mission-card" class="hidden h-[calc(100vh-140px)] animate-fade-in">
             <div id="card-injection-point" class="h-full w-full">
-                <!-- JS Enters Here -->
+                <!-- Populated by renderMissionCard() in script.js -->
             </div>
         </div>
     </main>
 
-    <!-- FOOTER: DEEP SPACE COMPONENT -->
+    <!-- ================================================ -->
+    <!-- FOOTER                                           -->
+    <!-- ================================================ -->
     <footer class="bg-[#0B1026] border-t-2 border-[#39FF14] text-slate-200 py-12 mt-auto relative z-10">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
@@ -439,15 +325,16 @@
         </div>
     </footer>
 
-    <!-- 3-PAGE PDF MODAL -->
+    <!-- ================================================ -->
+    <!-- 3-PAGE PDF REPORT MODAL                          -->
+    <!-- ================================================ -->
     <div id="report-modal"
         class="fixed inset-0 bg-slate-900/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
         <div
             class="bg-white rounded-3xl shadow-2xl w-full max-w-7xl h-[95vh] flex overflow-hidden ring-1 ring-white/20">
 
-            <!-- EDITOR SIDEBAR (HIDDEN FOR AUTOMATION) -->
+            <!-- EDITOR SIDEBAR (hidden; used for data binding only) -->
             <div class="w-96 p-8 bg-slate-50 border-r flex flex-col h-full overflow-hidden hidden" id="report-sidebar">
-                <!-- Inputs remain for data binding but are hidden from view -->
                 <div class="mb-6">
                     <h3 class="text-2xl font-black text-slate-800">Expert Report</h3>
                     <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Multi-Page Synthesis
@@ -461,7 +348,6 @@
                         <input id="in-muni" type="text" placeholder="e.g. CDO, Misamis Oriental" oninput="syncReport()"
                             class="w-full p-2.5 bg-white border rounded-xl text-sm font-semibold outline-green-500">
                     </div>
-
                     <div>
                         <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">GEE Map ThumbURL
                             (Visual Export)</label>
@@ -469,7 +355,6 @@
                             oninput="syncReport()"
                             class="w-full p-2 bg-white border rounded-lg text-[10px] font-mono"></textarea>
                     </div>
-
                     <div class="grid grid-cols-2 gap-3 border-t pt-4">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 uppercase block">Simulation (mm)</label>
@@ -482,7 +367,6 @@
                                 class="w-full p-2 border rounded-lg text-sm font-bold">
                         </div>
                     </div>
-
                     <div>
                         <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">AI Historical
                             Disclosure</label>
@@ -490,14 +374,12 @@
                             oninput="syncReport()"
                             class="w-full p-2.5 bg-white border rounded-xl text-xs leading-relaxed"></textarea>
                     </div>
-
                     <div>
                         <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">Practical
                             Recommendations</label>
                         <textarea id="in-recs" rows="4" placeholder="• Item 1&#10;• Item 2..." oninput="syncReport()"
                             class="w-full p-2.5 bg-white border rounded-xl text-xs leading-relaxed"></textarea>
                     </div>
-
                     <div class="grid grid-cols-2 gap-3 border-b pb-4">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 uppercase block">Crop Loss (Ha)</label>
@@ -511,10 +393,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- AUTOMATION CONTROL PANEL -->
+            <!-- CONTROL PANEL (PDF Download + Close) -->
             <div class="absolute bottom-6 left-6 z-50">
                 <button onclick="download3PagePDF()"
                     class="bg-slate-900 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-black transition flex items-center gap-3">
@@ -564,17 +445,17 @@
                             <h4 class="text-[10px] font-black uppercase text-slate-900 border-b pb-2 mb-2">Hazard Legend
                             </h4>
                             <div class="space-y-2">
-                                <div class="flex items-center gap-3 text-[10px] font-bold">
-                                    <span class="w-4 h-4 rounded-sm bg-red-600"></span> <span>Critical Inundation</span>
+                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
+                                        class="w-4 h-4 rounded-sm bg-red-600"></span> <span>Critical Inundation</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-[10px] font-bold">
-                                    <span class="w-4 h-4 rounded-sm bg-orange-500"></span> <span>Moderate Risk</span>
+                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
+                                        class="w-4 h-4 rounded-sm bg-orange-500"></span> <span>Moderate Risk</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-[10px] font-bold">
-                                    <span class="w-4 h-4 rounded-sm bg-yellow-400"></span> <span>Low Risk Pockets</span>
+                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
+                                        class="w-4 h-4 rounded-sm bg-yellow-400"></span> <span>Low Risk Pockets</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-[10px] font-bold">
-                                    <span class="w-4 h-4 rounded-sm bg-blue-600"></span> <span>Drainage Network</span>
+                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
+                                        class="w-4 h-4 rounded-sm bg-blue-600"></span> <span>Drainage Network</span>
                                 </div>
                             </div>
                         </div>
@@ -665,7 +546,7 @@
 
                     <div class="grid grid-cols-5 gap-8 mb-10">
                         <div class="col-span-3 space-y-4">
-                            <div class="section-title">Modelling approach</div>
+                            <div class="section-title">Modelling Approach</div>
                             <p class="text-[10pt] text-slate-600 leading-relaxed">
                                 This simulation utilizes the <b>HAND (Height Above Nearest Drainage)</b> methodology.
                                 HAND normalizes topographic elevation relative to the nearest stream channel (drainage
@@ -690,524 +571,162 @@
                         </div>
                     </div>
 
-                    <div class="section-title" <DEVELOPER</div>
-                        <div class="flex items-start gap-8 border-2 border-slate-100 p-8 rounded-3xl mb-auto">
-                            <div
-                                class="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-3xl shrink-0">
-                                <i class="fa-solid fa-user-gear"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-black text-slate-900">ENGR. DAVE U. GEPALAGO</h3>
-                                <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer & RABE</p>
-                                <p class="text-[9pt] text-slate-500 leading-relaxed">
-                                    Specialist in Disaster Risk Analysis and Web-GIS integration. Developed the
-                                    SinagSpatial
-                                    series of tools to provide LGUs with accessible, satellite-driven decision support
-                                    during rapid-onset hazard events.
-                                </p>
-                            </div>
-                        </div>
-
+                    <div class="section-title">Developer</div>
+                    <div class="flex items-start gap-8 border-2 border-slate-100 p-8 rounded-3xl mb-auto">
                         <div
-                            class="mt-12 flex justify-between items-center text-[7pt] text-slate-400 font-black uppercase tracking-widest p-4 border border-slate-100 rounded-xl">
-                            <span>Unofficial Report Snapshot</span>
-                            <span>Verification Token: 2026-FPORTAL-SS</span>
-                            <span>SinagSpatial v3.0 Platform</span>
+                            class="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-3xl shrink-0">
+                            <i class="fa-solid fa-user-gear"></i>
                         </div>
-
-                        <div class="pdf-footer">
-                            <span>SinagSpatial</span>
-                            <span id="p3-date" class="font-bold">--</span>
-                            <span>PAGE 03 / 03</span>
+                        <div>
+                            <h3 class="text-xl font-black text-slate-900">ENGR. DAVE U. GEPALAGO</h3>
+                            <p class="text-green-600 font-bold text-sm mb-4">Lead GIS Developer & RABE</p>
+                            <p class="text-[9pt] text-slate-500 leading-relaxed">
+                                Specialist in Disaster Risk Analysis and Web-GIS integration. Developed the SinagSpatial
+                                series of tools to provide LGUs with accessible, satellite-driven decision support
+                                during rapid-onset hazard events.
+                            </p>
                         </div>
                     </div>
 
+                    <div
+                        class="mt-12 flex justify-between items-center text-[7pt] text-slate-400 font-black uppercase tracking-widest p-4 border border-slate-100 rounded-xl">
+                        <span>Unofficial Report Snapshot</span>
+                        <span>Verification Token: 2026-FPORTAL-SS</span>
+                        <span>SinagSpatial v3.0 Platform</span>
+                    </div>
+
+                    <div class="pdf-footer">
+                        <span>SinagSpatial</span>
+                        <span id="p3-date" class="font-bold">--</span>
+                        <span>PAGE 03 / 03</span>
+                    </div>
+                </div>
+
+            </div><!-- end #pdf-preview-container -->
+        </div>
+    </div><!-- end #report-modal -->
+
+    <!-- ================================================ -->
+    <!-- COMPLIANCE MODALS                                -->
+    <!-- ================================================ -->
+
+    <!-- 1. LEGAL / IP POLICY -->
+    <div id="legal-modal"
+        class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
+        <div
+            class="bg-[#050814] border border-[#39FF14]/30 max-w-2xl w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)] max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleModal('legal-modal')"
+                class="absolute top-4 right-4 text-slate-500 hover:text-red-500 transition"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-[#00E5FF] font-black text-xl mb-6 tracking-tight flex items-center gap-3">
+                <i class="fa-solid fa-file-contract"></i> Intellectual Property & Trade Secrets
+            </h3>
+            <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                <div class="p-4 bg-white/5 rounded-lg border-l-2 border-[#39FF14]">
+                    <h4 class="font-bold text-white mb-1">1. Scope of Ownership</h4>
+                    <p class="text-xs">This project, SinagSpatial, encompasses proprietary methodologies for
+                        geospatial analysis. This includes the unique integration of the Height Above Nearest
+                        Drainage (HAND) methodology with a dynamic "Sliding Rainfall Volume" simulation to assess
+                        vertical stage rise and flood susceptibility.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-1">2. Trade Secrets</h4>
+                    <p class="text-xs">The mathematical thresholds, binarization parameters, and specific
+                        correlations between precipitative intensity and topographic normalization used in this
+                        simulation are classified as Trade Secrets. Unauthorized disclosure or attempts to decompile
+                        the underlying scripts is a violation of proprietary rights.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-1">3. Software as a Product</h4>
+                    <p class="text-xs">Any automated tools, including Google Earth Engine (GEE) Apps or Excel/VBA
+                        insurance automation scripts developed under this project, are protected as software
+                        products. The "Technical Effect" produced—specifically the 60-70% reduction in insurance
+                        processing time—is a claim of utility and innovation exclusive to SinagSpatial.</p>
+                </div>
+                <div class="p-3 bg-red-900/20 border border-red-500/30 rounded text-red-200 text-xs font-bold">
+                    <i class="fa-solid fa-triangle-exclamation mr-2"></i> 4. Infringement: Any unauthorized use of
+                    the SinagSpatial brand name or its specific simulation workflows for commercial gain will be met
+                    with legal action under the provisions of RA 8293.
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- COMPLIANCE MODALS -->
-        <!-- COMPLIANCE MODALS (UPDATED CONTENT) -->
-
-        <!-- 1. LEGAL / IP POLICY -->
-        <div id="legal-modal"
-            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
-            <div
-                class="bg-[#050814] border border-[#39FF14]/30 max-w-2xl w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)] max-h-[90vh] overflow-y-auto">
-                <button onclick="toggleModal('legal-modal')"
-                    class="absolute top-4 right-4 text-slate-500 hover:text-red-500 transition"><i
-                        class="fa-solid fa-xmark text-xl"></i></button>
-                <h3 class="text-[#00E5FF] font-black text-xl mb-6 tracking-tight flex items-center gap-3">
-                    <i class="fa-solid fa-file-contract"></i> Intellectual Property & Trade Secrets
-                </h3>
-                <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                    <div class="p-4 bg-white/5 rounded-lg border-l-2 border-[#39FF14]">
-                        <h4 class="font-bold text-white mb-1">1. Scope of Ownership</h4>
-                        <p class="text-xs">This project, SinagSpatial, encompasses proprietary methodologies for
-                            geospatial analysis. This includes the unique integration of the Height Above Nearest
-                            Drainage (HAND) methodology with a dynamic "Sliding Rainfall Volume" simulation to assess
-                            vertical stage rise and flood susceptibility.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-white mb-1">2. Trade Secrets</h4>
-                        <p class="text-xs">The mathematical thresholds, binarization parameters, and specific
-                            correlations between precipitative intensity and topographic normalization used in this
-                            simulation are classified as Trade Secrets. Unauthorized disclosure or attempts to decompile
-                            the underlying scripts is a violation of proprietary rights.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-white mb-1">3. Software as a Product</h4>
-                        <p class="text-xs">Any automated tools, including Google Earth Engine (GEE) Apps or Excel/VBA
-                            insurance automation scripts developed under this project, are protected as software
-                            products. The "Technical Effect" produced—specifically the 60-70% reduction in insurance
-                            processing time—is a claim of utility and innovation exclusive to SinagSpatial.</p>
-                    </div>
-                    <div class="p-3 bg-red-900/20 border border-red-500/30 rounded text-red-200 text-xs font-bold">
-                        <i class="fa-solid fa-triangle-exclamation mr-2"></i> 4. Infringement: Any unauthorized use of
-                        the SinagSpatial brand name or its specific simulation workflows for commercial gain will be met
-                        with legal action under the provisions of RA 8293.
-                    </div>
+    <!-- 2. PRIVACY POLICY -->
+    <div id="privacy-modal"
+        class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
+        <div
+            class="bg-[#050814] border border-[#39FF14]/30 max-w-2xl w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)] max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleModal('privacy-modal')"
+                class="absolute top-4 right-4 text-slate-500 hover:text-red-500 transition"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-[#00E5FF] font-black text-xl mb-6 tracking-tight flex items-center gap-3">
+                <i class="fa-solid fa-user-shield"></i> Data Privacy Policy (RA 10173)
+            </h3>
+            <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                <p class="italic text-xs text-slate-500 mb-4">SinagSpatial is committed to protecting the personal
+                    and geospatial data of its users. This policy is governed by the Data Privacy Act of 2012
+                    (Republic Act No. 10173).</p>
+                <ul class="space-y-3 list-disc pl-4 marker:text-[#39FF14]">
+                    <li><b class="text-white">Collection of Information:</b> We collect information only when provided
+                        voluntarily by the user (Identity Data, Geospatial Coordinates, Farm Boundaries).</li>
+                    <li><b class="text-white">Use of Data:</b> Processed solely for flood risk assessments and insurance
+                        claim validations. We do not use your specific farm data for other purposes.</li>
+                    <li><b class="text-white">Data Security:</b> We implement a "Privacy by Design" framework. Uploaded
+                        assets are stored in encrypted private repositories in GEE.</li>
+                    <li><b class="text-white">Disclosure:</b> We do not share, sell, or lease data. Sharing with
+                        government agencies (PCIC, PhilSA) occurs only with express user consent.</li>
+                    <li><b class="text-white">Retention:</b> Data is retained for five (5) years for historical
+                        analysis, then securely deleted.</li>
+                </ul>
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs">
+                    Contact DPO: <span class="text-[#39FF14]">dave.gepalago@email.com</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- 2. PRIVACY POLICY -->
-        <div id="privacy-modal"
-            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
-            <div
-                class="bg-[#050814] border border-[#39FF14]/30 max-w-2xl w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)] max-h-[90vh] overflow-y-auto">
-                <button onclick="toggleModal('privacy-modal')"
-                    class="absolute top-4 right-4 text-slate-500 hover:text-red-500 transition"><i
-                        class="fa-solid fa-xmark text-xl"></i></button>
-                <h3 class="text-[#00E5FF] font-black text-xl mb-6 tracking-tight flex items-center gap-3">
-                    <i class="fa-solid fa-user-shield"></i> Data Privacy Policy (RA 10173)
-                </h3>
-                <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                    <p class="italic text-xs text-slate-500 mb-4">SinagSpatial is committed to protecting the personal
-                        and geospatial data of its users. This policy is governed by the Data Privacy Act of 2012
-                        (Republic Act No. 10173).</p>
-
-                    <ul class="space-y-3 list-disc pl-4 marker:text-[#39FF14]">
-                        <li>
-                            <b class="text-white">Collection of Information:</b> We collect information only when
-                            provided voluntarily by the user (Identity Data, Geospatial Coordinates, Farm Boundaries).
-                        </li>
-                        <li>
-                            <b class="text-white">Use of Data:</b> Processed solely for flood risk assessments and
-                            insurance claim validations. We do not use your specific farm data for other purposes.
-                        </li>
-                        <li>
-                            <b class="text-white">Data Security:</b> We implement a "Privacy by Design" framework.
-                            Uploaded assets are stored in encrypted private repositories in GEE.
-                        </li>
-                        <li>
-                            <b class="text-white">Disclosure:</b> We do not share, sell, or lease data. Sharing with
-                            government agencies (PCIC, PhilSA) occurs only with express user consent.
-                        </li>
-                        <li>
-                            <b class="text-white">Retention:</b> Data is retained for five (5) years for historical
-                            analysis, then securely deleted.
-                        </li>
-                    </ul>
-                    <div class="mt-4 pt-4 border-t border-slate-800 text-xs">
-                        Contact DPO: <span class="text-[#39FF14]">dave.gepalago@email.com</span>
-                    </div>
+    <!-- 3. COPYRIGHT & DISCLAIMER -->
+    <div id="disclaimer-modal"
+        class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
+        <div
+            class="bg-[#050814] border border-[#39FF14]/30 max-w-lg w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)]">
+            <button onclick="toggleModal('disclaimer-modal')"
+                class="absolute top-4 right-4 text-slate-500 hover:text-red-500 transition"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-[#00E5FF] font-black text-xl mb-6 tracking-tight flex items-center gap-3">
+                <i class="fa-solid fa-copyright"></i> Copyright & Attribution
+            </h3>
+            <div class="text-center mb-6">
+                <p class="font-bold text-white text-lg">© 2026 SinagSpatial</p>
+                <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Developed by Engr. Dave Gepalago</p>
+                <p class="text-[10px] text-slate-500 mt-1">All Rights Reserved</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-4 space-y-2 text-xs text-slate-300">
+                <div class="flex justify-between border-b border-slate-700 pb-2">
+                    <span class="text-slate-500 uppercase">Satellite Data</span>
+                    <span class="text-right">Copernicus Sentinel-1 (ESA)<br>Landsat 8/9 (NASA/USGS)</span>
+                </div>
+                <div class="flex justify-between pt-2">
+                    <span class="text-slate-500 uppercase">Base Maps</span>
+                    <span class="text-right">Google Maps Platform & OSM</span>
                 </div>
             </div>
-        </div>
-
-        <!-- 3. DISCLAIMER -->
-        <div id="disclaimer-modal"
-            class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4">
-            <div
-                class="bg-[#050814] border border-[#39FF14]/30 max-w-lg w-full p-8 rounded-2xl relative shadow-[0_0_50px_rgba(57,255,20,0.1)]">
-                <button onclick="toggleModal('disclaimer-modal')"
-                    class="absolute top-4 right-4 text-slate-500 hover:text-red-500 transition"><i
-                        class="fa-solid fa-xmark text-xl"></i></button>
-                <h3 class="text-[#00E5FF] font-black text-xl mb-6 tracking-tight flex items-center gap-3">
-                    <i class="fa-solid fa-copyright"></i> Copyright & Attribution
-                </h3>
-                <div class="text-center mb-6">
-                    <p class="font-bold text-white text-lg">© 2026 SinagSpatial</p>
-                    <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Developed by Engr. Dave Gepalago
-                    </p>
-                    <p class="text-[10px] text-slate-500 mt-1">All Rights Reserved</p>
-                </div>
-
-                <div class="bg-white/5 rounded-xl p-4 space-y-2 text-xs text-slate-300">
-                    <div class="flex justify-between border-b border-slate-700 pb-2">
-                        <span class="text-slate-500 uppercase">Satellite Data</span>
-                        <span class="text-right">Copernicus Sentinel-1 (ESA)<br>Landsat 8/9 (NASA/USGS)</span>
-                    </div>
-                    <div class="flex justify-between pt-2">
-                        <span class="text-slate-500 uppercase">Base Maps</span>
-                        <span class="text-right">Google Maps Platform & OSM</span>
-                    </div>
-                </div>
-
-                <div class="mt-6 p-3 bg-yellow-900/20 border border-yellow-600/50 rounded-lg flex gap-3 items-start">
-                    <i class="fa-solid fa-triangle-exclamation text-yellow-500 mt-0.5"></i>
-                    <p class="text-yellow-100 text-[10px] leading-tight">
-                        <b>Disclaimer:</b> This tool is for decision support and disaster risk estimation. It does not
-                        replace ground-validated surveys by licensed Geodetic Engineers.
-                    </p>
-                </div>
+            <div class="mt-6 p-3 bg-yellow-900/20 border border-yellow-600/50 rounded-lg flex gap-3 items-start">
+                <i class="fa-solid fa-triangle-exclamation text-yellow-500 mt-0.5"></i>
+                <p class="text-yellow-100 text-[10px] leading-tight">
+                    <b>Disclaimer:</b> This tool is for decision support and disaster risk estimation. It does not
+                    replace ground-validated surveys by licensed Geodetic Engineers.
+                </p>
             </div>
         </div>
+    </div>
 
-        <script>
-            // --- MODAL LOGIC ---
+    <!-- ================================================ -->
+    <!-- SCRIPTS (loaded last for performance)            -->
+    <!-- ================================================ -->
+    <script src="script.js"></script>
 
-            // --- AGENT 2: GEOSPATIAL LOGIC CORE ---
-
-            // 1. SERVICE REGISTRY (The 10 Apps)
-            const SERVICES = [
-                {
-                    id: 'flood-risk',
-                    name: 'Flood Risk Simulator',
-                    status: 'ACTIVE',
-                    url: 'https://ee-dugproject.projects.earthengine.app/view/flood-risk-mapping', // Verified active
-                    icon: 'fa-cloud-showers-heavy',
-                    color: 'text-radarGreen',
-                    desc: 'Hand Model & Rainfall Analysis'
-                },
-                {
-                    id: 'agri-health',
-                    name: 'AgriHealth Tracker',
-                    status: 'UPCOMING',
-                    icon: 'fa-wheat-awn',
-                    desc: 'NDVI/NDWI Crop Stress Monitoring',
-                    objective: 'Real-time monitoring of crop vigor and water stress across municipal farmlands.',
-                    analytics: ['Vegetation Index (NDVI)', 'Normalized Difference Water Index (NDWI)', 'Anomaly Detection'],
-                    sector: 'Department of Agriculture (DA), Rice Cooperatives'
-                },
-                {
-                    id: 'radar-shield',
-                    name: 'RadarShield',
-                    status: 'UPCOMING',
-                    icon: 'fa-tower-broadcast',
-                    desc: 'SAR Lodging Detection',
-                    objective: 'Post-disaster crop structure assessment using cloud-piercing radar technology.',
-                    analytics: ['Structural loss percentage', 'Inundated area calculation', 'Damage verification'],
-                    sector: 'PCIC (Insurance), Disaster Risk Reduction Offices'
-                },
-                {
-                    id: 'slope-guard',
-                    name: 'SlopeGuard',
-                    status: 'UPCOMING',
-                    icon: 'fa-mountain',
-                    desc: 'Landslide Susceptibility',
-                    objective: 'High-resolution terrain analysis to identify zones at risk of slope failure.',
-                    analytics: ['Slope gradient heatmaps', 'Soil moisture proxy', 'Precipitation threshold alerts'],
-                    sector: 'MGB (Mines and Geosciences Bureau), Urban Planning Offices'
-                },
-                {
-                    id: 'urban-pulse',
-                    name: 'UrbanPulse',
-                    status: 'UPCOMING',
-                    icon: 'fa-city',
-                    desc: 'Land Use Change',
-                    objective: 'Automated tracking of urban expansion and agricultural land conversion.',
-                    analytics: ['Multi-temporal LULC Classification', 'Forest cover loss', 'Built-up area growth'],
-                    sector: 'LGU Assessors, Environment & Natural Resources (DENR)'
-                },
-                {
-                    id: 'sky-audit',
-                    name: 'SkyAudit',
-                    status: 'UPCOMING',
-                    icon: 'fa-smog',
-                    desc: 'Air Quality Sentinel',
-                    objective: 'Atmospheric monitoring of industrial pollutants and greenhouse gases.',
-                    analytics: ['$NO_2$, $SO_2$, CO concentration', 'Pollution plume mapping', 'Air Quality Index'],
-                    sector: 'City Health Offices, Environmental Management Bureau'
-                },
-                {
-                    id: 'coastal-watch',
-                    name: 'CoastalWatch',
-                    status: 'UPCOMING',
-                    icon: 'fa-water',
-                    desc: 'Shoreline Monitoring',
-                    objective: 'Tracking coastal erosion and accretion rates using historical satellite imagery.',
-                    analytics: ['Shoreline change rate', 'Coastal vulnerability index'],
-                    sector: 'Maritime Agencies, Coastal LGUs'
-                },
-                {
-                    id: 'forest-eye',
-                    name: 'ForestEye',
-                    status: 'UPCOMING',
-                    icon: 'fa-tree',
-                    desc: 'Deforestation Alert',
-                    objective: 'Near real-time alert system for illegal logging activities.',
-                    analytics: ['Canopy disturbance', 'Road network expansion'],
-                    sector: 'DENR, Forest Rangers'
-                },
-                {
-                    id: 'heat-scan',
-                    name: 'HeatScan',
-                    status: 'UPCOMING',
-                    icon: 'fa-temperature-high',
-                    desc: 'Urban Heat Island',
-                    objective: 'Mapping surface temperature anomalies in dense urban areas.',
-                    analytics: ['Land Surface Temperature (LST)', 'Cooling center identification'],
-                    sector: 'City Planning, Public Health'
-                },
-                {
-                    id: 'aqua-track',
-                    name: 'AquaTrack',
-                    status: 'UPCOMING',
-                    icon: 'fa-droplet',
-                    desc: 'Water Quality',
-                    objective: 'Monitoring turbidity and chlorophyll levels in lakes and reservoirs.',
-                    analytics: ['Turbidity analysis', 'Algal bloom detection'],
-                    sector: 'Water Districts, Fisheries'
-                }
-            ];
-
-            // 2. INITIALIZATION
-            window.onload = function () {
-                startClock();
-                renderNavItems();
-
-                // Existing PDF Sync Logic
-                const params = new URLSearchParams(window.location.search);
-                if (params.has('muni')) {
-                    // Populate PDF fields if URL params exist
-                    document.getElementById('in-muni').value = params.get('muni');
-                    document.getElementById('in-rain').value = params.get('rain');
-                    // ... (keep existing population logic if needed, simplified for brevity)
-                    openReportModal();
-                    syncReport();
-                }
-            };
-
-            // 3. UI LOGIC (Drawer & Clock)
-            function toggleDrawer() {
-                const drawer = document.getElementById('burger-drawer');
-                const overlay = document.getElementById('drawer-overlay');
-
-                if (drawer.classList.contains('-translate-x-full')) {
-                    drawer.classList.remove('-translate-x-full');
-                    overlay.classList.remove('hidden');
-                    setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-                } else {
-                    drawer.classList.add('-translate-x-full');
-                    overlay.classList.add('opacity-0');
-                    setTimeout(() => overlay.classList.add('hidden'), 300);
-                }
-            }
-
-            function toggleModal(modalId) {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    if (modal.classList.contains('hidden')) {
-                        // Show modal
-                        modal.classList.remove('hidden');
-                        modal.classList.add('flex');
-                    } else {
-                        // Hide modal
-                        modal.classList.add('hidden');
-                        modal.classList.remove('flex');
-                    }
-                }
-            }
-
-            function startClock() {
-                setInterval(() => {
-                    const now = new Date();
-                    document.getElementById('mission-clock').innerText = now.toLocaleTimeString('en-US', { hour12: false });
-                    document.getElementById('mission-date').innerText = now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase();
-                }, 1000);
-            }
-
-            // 4. VIEW MANAGER
-            function switchView(viewId) {
-                // Hide all main views
-                ['view-home', 'view-simulator', 'view-mission-card'].forEach(id => {
-                    document.getElementById(id).classList.add('hidden');
-                });
-
-                // Show target view
-                const target = document.getElementById(viewId);
-                if (target) {
-                    target.classList.remove('hidden');
-                    target.classList.add('animate-fade-in');
-                }
-
-                // specific logic for Home
-                if (viewId === 'view-home') {
-                    toggleDrawer(); // close drawer if open
-                }
-            }
-
-            function renderNavItems() {
-                const container = document.getElementById('nav-items-container');
-                let html = '';
-
-                SERVICES.forEach(service => {
-                    const opacity = service.status === 'UPCOMING' ? 'opacity-60 hover:opacity-100' : 'hover:scale-[1.02] shadow-lg bg-white/5';
-                    const cursor = service.status === 'UPCOMING' ? 'cursor-pointer' : 'cursor-pointer border-l-2 border-radarGreen';
-                    const iconColor = service.status === 'ACTIVE' ? 'text-radarGreen' : 'text-slate-400';
-
-                    html += `
-                        <div onclick="switchService('${service.id}')" 
-                             class="p-3 rounded-lg flex items-center gap-3 transition ${opacity} ${cursor} border border-transparent hover:border-radarGreen/30 hover:bg-white/5">
-                            <div class="w-8 h-8 rounded bg-black/40 flex items-center justify-center ${iconColor}">
-                                <i class="fa-solid ${service.icon}"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-sm text-slate-200">${service.name}</h4>
-                                <p class="text-[9px] text-radarGreen/60 uppercase tracking-wider">${service.desc}</p>
-                            </div>
-                            ${service.status === 'UPCOMING' ? '<span class="text-[8px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">DEV</span>' : '<i class="fa-solid fa-circle-check text-radarGreen text-xs"></i>'}
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-            }
-
-            function switchService(serviceId) {
-                const service = SERVICES.find(s => s.id === serviceId);
-                const container = document.getElementById('main-stage-content');
-                toggleDrawer(); // Close menu
-
-                // Ensure HOME is hidden
-                document.getElementById('view-home').classList.add('hidden');
-
-                // If flood risk (Active)
-                if (service.id === 'flood-risk') {
-                    document.getElementById('view-simulator').classList.remove('hidden');
-                    document.getElementById('view-mission-card').classList.add('hidden');
-                } else {
-                    // Show Mission Card
-                    document.getElementById('view-simulator').classList.add('hidden');
-                    document.getElementById('view-mission-card').classList.remove('hidden');
-                    renderMissionCard(service);
-                }
-            }
-
-            function renderMissionCard(service) {
-                const analyticsList = service.analytics.map(item => `<li class="flex items-center gap-2"><i class="fa-solid fa-microchip text-radarGreen"></i> ${item}</li>`).join('');
-
-                const html = `
-                    <div class="h-full flex items-center justify-center p-8">
-                        <div class="glass-card max-w-2xl w-full p-8 rounded-3xl relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-radarGreen to-transparent opacity-50"></div>
-                            
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="w-16 h-16 rounded-2xl bg-black/40 flex items-center justify-center border border-radarGreen/30 shadow-[0_0_20px_rgba(57,255,20,0.15)]">
-                                    <i class="fa-solid ${service.icon} text-3xl text-radarGreen"></i>
-                                </div>
-                                <div>
-                                    <h2 class="text-3xl font-black text-white tracking-tight">${service.name.toUpperCase()}</h2>
-                                    <p class="text-xs text-radarGreen font-mono uppercase tracking-[0.3em]">Mission Status: In Development</p>
-                                </div>
-                            </div>
-
-                            <div class="space-y-6">
-                                <div>
-                                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Mission Objective</h3>
-                                    <p class="text-lg text-slate-200 leading-relaxed font-light border-l-2 border-radarGreen pl-4">${service.objective}</p>
-                                </div>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                                        <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Key Analytics</h3>
-                                        <ul class="text-sm text-slate-300 space-y-2 font-mono">
-                                            ${analyticsList}
-                                        </ul>
-                                    </div>
-                                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                                        <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Target Sector</h3>
-                                        <p class="text-sm text-slate-300">${service.sector}</p>
-                                        <div class="mt-4 flex gap-2">
-                                            <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
-                                            <span class="text-[10px] text-yellow-400 uppercase">Awaiting Downlink</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('card-injection-point').innerHTML = html;
-            }
-
-            // --- EXISTING PDF LOGIC (Preserved) ---
-            const modal = document.getElementById('report-modal');
-            const { jsPDF } = window.jspdf;
-
-            function openReportModal() {
-                modal.classList.remove('hidden');
-                const now = new Date();
-                const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
-                document.getElementById('p1-date').innerText = dateStr;
-                document.getElementById('p2-date').innerText = dateStr;
-                document.getElementById('p3-date').innerText = dateStr;
-            }
-
-            function closeReportModal() { modal.classList.add('hidden'); }
-
-            function syncReport() {
-                // ... (Existing input syncing logic) ...
-                const muni = document.getElementById('in-muni').value || 'Target Area';
-                document.getElementById('p1-muni').innerText = muni;
-
-                // Fixed sidebar reference logic
-                const drawer = document.getElementById('burger-drawer');
-                if (drawer && !drawer.classList.contains('-translate-x-full')) {
-                    toggleDrawer();
-                }
-            }
-
-            async function download3PagePDF() {
-                const btn = document.querySelector('button[onclick="download3PagePDF()"]');
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rendering Report...';
-                btn.disabled = true;
-
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pageIds = ['report-page-1', 'report-page-2', 'report-page-3'];
-
-                try {
-                    for (let i = 0; i < pageIds.length; i++) {
-                        const page = document.getElementById(pageIds[i]);
-                        const canvas = await html2canvas(page, {
-                            scale: 2, // 2x quality
-                            useCORS: true,
-                            allowTaint: true,
-                            backgroundColor: '#ffffff'
-                        });
-
-                        const imgData = canvas.toDataURL('image/png');
-                        const imgProps = pdf.getImageProperties(imgData);
-                        const pdfWidth = pdf.internal.pageSize.getWidth();
-                        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                        if (i > 0) pdf.addPage();
-                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                    }
-
-                    const muni = document.getElementById('in-muni').value || 'Report';
-                    pdf.save(`SinagSpatial_Report_${muni.replace(/\s+/g, '_')}_2026.pdf`);
-                } catch (err) {
-                    console.error('PDF Generation Failed:', err);
-                    alert('An error occurred while generating the PDF. Please check your Map Image URL.');
-                } finally {
-                    btn.innerHTML = '<i class="fa-solid fa-download"></i> Save as 3-Page PDF';
-                    btn.disabled = false;
-                }
-            }
-        </script>
-        <script>
-            // --- CONTENT PROTECTION ---
-            document.addEventListener('contextmenu', event => event.preventDefault());
-            document.onkeydown = function (e) {
-                if (e.keyCode == 123) return false; // F12
-                if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
-                if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; // Ctrl+Shift+C
-                if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
-                if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
-            }
-        </script>
 </body>
 
 </html>
