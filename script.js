@@ -310,22 +310,22 @@ function closeReportModal() {
 }
 
 function syncReport() {
-    const muni      = document.getElementById('in-muni').value      || 'Target Area';
-    const rain      = document.getElementById('in-rain').value      || '100';
-    const pop       = document.getElementById('in-pop').value       || '0';
+    const muni = document.getElementById('in-muni').value || 'Target Area';
+    const rain = document.getElementById('in-rain').value || '100';
+    const pop = document.getElementById('in-pop').value || '0';
     const narrative = document.getElementById('in-narrative').value || '--';
-    const recs      = document.getElementById('in-recs').value      || '--';
-    const crops     = document.getElementById('in-crops').value     || '0.00';
-    const houses    = document.getElementById('in-houses').value    || '0.00';
-    const mapUrl    = document.getElementById('in-map-url').value;
+    const recs = document.getElementById('in-recs').value || '--';
+    const crops = document.getElementById('in-crops').value || '0.00';
+    const houses = document.getElementById('in-houses').value || '0.00';
+    const mapUrl = document.getElementById('in-map-url').value;
 
-    document.getElementById('p1-muni').innerText    = muni;
-    document.getElementById('p1-rain').innerText    = rain + ' mm';
-    document.getElementById('p2-pop').innerText     = pop + ' people';
+    document.getElementById('p1-muni').innerText = muni;
+    document.getElementById('p1-rain').innerText = rain + ' mm';
+    document.getElementById('p2-pop').innerText = pop + ' people';
     document.getElementById('p2-narrative').innerText = narrative;
-    document.getElementById('p2-recs').innerText    = recs;
-    document.getElementById('p2-crops').innerText   = crops + ' Ha';
-    document.getElementById('p2-houses').innerText  = houses + ' Ha';
+    document.getElementById('p2-recs').innerText = recs;
+    document.getElementById('p2-crops').innerText = crops + ' Ha';
+    document.getElementById('p2-houses').innerText = houses + ' Ha';
 
     if (mapUrl && mapUrl.trim() !== '') {
         document.getElementById('p1-map-img').src = mapUrl;
@@ -340,7 +340,7 @@ async function download3PagePDF() {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pageIds = ['report-page-1', 'report-page-2', 'report-page-3'];
-    const A4_WIDTH_MM  = 210;
+    const A4_WIDTH_MM = 210;
     const A4_HEIGHT_MM = 297;
 
     try {
@@ -372,7 +372,40 @@ async function download3PagePDF() {
 }
 
 // ============================================================
-// 7. CONTENT PROTECTION
+// 7. FULLSCREEN TOGGLE (GEE Simulator)
+// ============================================================
+function toggleSimulatorFullscreen() {
+    const wrapper = document.getElementById('simulator-wrapper');
+    const icon = document.getElementById('fullscreen-icon');
+    const label = document.getElementById('fullscreen-label');
+
+    if (!document.fullscreenElement) {
+        wrapper.requestFullscreen().then(() => {
+            icon.className = 'fa-solid fa-compress';
+            label.innerText = 'Exit Fullscreen';
+        }).catch(err => {
+            console.warn('Fullscreen error:', err);
+        });
+    } else {
+        document.exitFullscreen().then(() => {
+            icon.className = 'fa-solid fa-expand';
+            label.innerText = 'Fullscreen';
+        });
+    }
+}
+
+// Keep button state in sync when user presses ESC
+document.addEventListener('fullscreenchange', function () {
+    if (!document.fullscreenElement) {
+        const icon = document.getElementById('fullscreen-icon');
+        const label = document.getElementById('fullscreen-label');
+        if (icon) icon.className = 'fa-solid fa-expand';
+        if (label) label.innerText = 'Fullscreen';
+    }
+});
+
+// ============================================================
+// 8. CONTENT PROTECTION
 // ============================================================
 document.addEventListener('contextmenu', event => event.preventDefault());
 document.onkeydown = function (e) {
