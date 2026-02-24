@@ -496,30 +496,32 @@
 
                     <!-- MAP AREA -->
                     <div
-                        class="w-full aspect-[16/9] bg-slate-100 rounded-2xl border-2 border-slate-200 overflow-hidden relative shadow-lg mb-8">
+                        class="w-full aspect-[16/9] bg-slate-100 rounded-2xl border-2 border-slate-200 overflow-hidden shadow-lg mb-2">
                         <img id="p1-map-img"
                             src="https://via.placeholder.com/800x450/f1f5f9/64748b?text=Place+Map+Export+Link+in+Editor"
                             class="w-full h-full object-cover">
-                        <div
-                            class="absolute bottom-6 right-6 bg-white/95 p-4 rounded-xl border-t-4 border-green-500 shadow-xl w-48 z-10">
-                            <h4 class="text-[10px] font-black uppercase text-slate-900 border-b pb-2 mb-2">Hazard Legend
-                            </h4>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
-                                        class="w-4 h-4 rounded-sm bg-red-600"></span> <span>Critical Inundation</span>
-                                </div>
-                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
-                                        class="w-4 h-4 rounded-sm bg-orange-500"></span> <span>Moderate Risk</span>
-                                </div>
-                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
-                                        class="w-4 h-4 rounded-sm bg-yellow-400"></span> <span>Low Risk Pockets</span>
-                                </div>
-                                <div class="flex items-center gap-3 text-[10px] font-bold"><span
-                                        class="w-4 h-4 rounded-sm bg-blue-600"></span> <span>Drainage Network</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
+                    <!-- HAZARD LEGEND — horizontal row below the map -->
+                    <div class="flex items-center gap-6 px-2 pb-6 border-b border-slate-100 mb-6">
+                        <span
+                            class="text-[9px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Hazard
+                            Legend</span>
+                        <div class="flex items-center gap-1.5 text-[9px] font-bold text-slate-700">
+                            <span class="w-3 h-3 rounded-sm bg-red-600 flex-shrink-0"></span> Critical Inundation
+                        </div>
+                        <div class="flex items-center gap-1.5 text-[9px] font-bold text-slate-700">
+                            <span class="w-3 h-3 rounded-sm bg-orange-500 flex-shrink-0"></span> Moderate Susceptibility
+                        </div>
+                        <div class="flex items-center gap-1.5 text-[9px] font-bold text-slate-700">
+                            <span class="w-3 h-3 rounded-sm bg-yellow-400 flex-shrink-0"></span> Low Probability Pockets
+                        </div>
+                        <div class="flex items-center gap-1.5 text-[9px] font-bold text-slate-700">
+                            <span class="w-3 h-3 rounded-sm bg-blue-600 flex-shrink-0"></span> Drainage Network
+                        </div>
+                        <span class="ml-auto text-[8px] text-slate-300 italic">MERIT-Hydro HAND Model · 30m</span>
+                    </div>
+
 
                     <div class="section-title">Hazard Parameter Configuration</div>
                     <div class="grid grid-cols-2 gap-8 text-[11px] leading-relaxed mb-auto">
